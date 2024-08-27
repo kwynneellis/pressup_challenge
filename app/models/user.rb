@@ -4,5 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # Validations
+  validates :username, presence: { message: "is required" }, uniqueness: { message: "is already taken" }
+  validates :start_date, presence: { message: "is required" }
+
+  # Associations
   has_many :logs, dependent: :destroy
 end
