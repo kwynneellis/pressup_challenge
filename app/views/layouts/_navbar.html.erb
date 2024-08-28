@@ -1,28 +1,28 @@
 <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light mb-2">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">💪 Press-ups</a>
+    <a class="navbar-brand" href="/">💪 <%= @press_ups_today %></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-lg-0">
         <% if user_signed_in? %>
-            <li class="nav-item">
-              <%= link_to "Logs", logs_path, class: "nav-link text-end" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Profile", edit_user_registration_path, class: "nav-link text-end" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Settings", edit_user_registration_path, class: "nav-link text-end" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item text-end" %>
-            </li>
+          <li class="nav-item">
+            <%= link_to "Logs", logs_path, class: "nav-link text-end" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Profile", edit_user_registration_path, class: "nav-link text-end" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Settings", edit_user_registration_path, class: "nav-link text-end" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item text-end" %>
+          </li>
         <% else %>
-            <li class="nav-item">
-              <%= link_to "Log in", new_user_session_path, class: "nav-link text-end" %>
-            </li>
+          <li class="nav-item">
+            <%= link_to "Log in", new_user_session_path, class: "nav-link text-end" %>
+          </li>
         <% end %>
       </ul>
     </div>
