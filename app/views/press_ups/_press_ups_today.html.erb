@@ -1,5 +1,6 @@
 <div id="press-ups-info">
   <p>Today's target: <%= press_ups_today %></p>
+  <%= render 'press_ups/progress_bar', press_ups_done_today_percentage: press_ups_done_today_percentage %>
   <p>Done today: <%= press_ups_done_today %></p>
   <p>Remaining today: <%= press_ups_remaining_today %></p>
 </div>

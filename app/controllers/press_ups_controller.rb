@@ -5,6 +5,7 @@ class PressUpsController < ApplicationController
     @press_ups_today = calculate_press_ups_for_today
     @press_ups_done_today = current_user.logs.where(date: Date.today).sum(:press_ups_done)
     @press_ups_remaining_today = [@press_ups_today - @press_ups_done_today, 0].max
+    @press_ups_done_today_percentage = (@press_ups_done_today.to_f / @press_ups_today * 100).round(2)
   end
 
   private

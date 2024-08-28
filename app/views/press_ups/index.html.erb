@@ -2,7 +2,8 @@
   <%= render 'press_ups/press_ups_today', 
              press_ups_today: @press_ups_today, 
              press_ups_done_today: @press_ups_done_today, 
-             press_ups_remaining_today: @press_ups_remaining_today %>
+             press_ups_remaining_today: @press_ups_remaining_today,
+             press_ups_done_today_percentage: @press_ups_done_today_percentage %>
 </turbo-frame>
 
-<%= render 'press_ups/buttons' %>
+<%= render 'press_ups/buttons', locals: { press_ups_remaining_today: @press_ups_remaining_today } %>
