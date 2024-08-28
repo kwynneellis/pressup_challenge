@@ -1,2 +1,8 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<h4>Hi <%= @current_user.username %></h4>
+
+<p>Challenge start date: <%= @user.start_date %></p>
+<p>Total press-ups logged: <%= @user.total_press_ups %></p>
+<p>Date of challenge: <%= @user.current_day %></p>
+<p>Challenge amount: <%= @challenge_to_date %></p>
+
+<%= button_to "I'm up-to-date", update_press_ups_user_path, method: :patch, class: "btn btn-primary mt-3" %>
