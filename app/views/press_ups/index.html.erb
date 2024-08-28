@@ -1,2 +1,8 @@
-<h1>PressUps#index</h1>
-<p>Find me in app/views/press_ups/index.html.erb</p>
+<turbo-frame id="press-ups">
+  <%= render 'press_ups/press_ups_today', 
+             press_ups_today: @press_ups_today, 
+             press_ups_done_today: @press_ups_done_today, 
+             press_ups_remaining_today: @press_ups_remaining_today %>
+</turbo-frame>
+
+<%= render 'press_ups/buttons' %>

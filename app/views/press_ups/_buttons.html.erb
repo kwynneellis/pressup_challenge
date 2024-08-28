@@ -1,0 +1,17 @@
+<h2 class="text-center">Log your press-ups</h2>
+<div class="row text-center">
+  <div class="col">
+    <%= button_to "+1", logs_path(log: { date: Date.today, press_ups_done: 1 }), method: :post, remote: true, class: "btn btn-success mt-4", data: { turbo: "true" } %>
+  </div>
+  <div class="col">
+    <%= button_to "+5", logs_path(log: { date: Date.today, press_ups_done: 5 }), method: :post, remote: true, class: "btn btn-success mt-4", data: { turbo: "true" } %>
+  </div>
+</div>
+<div class="row text-center">
+  <div class="col">
+    <%= button_to "+10", logs_path(log: { date: Date.today, press_ups_done: 10 }), method: :post, remote: true, class: "btn btn-success mt-4", data: { turbo: "true" } %>
+  </div>
+  <div class="col">
+    <%= button_to "+25", logs_path(log: { date: Date.today, press_ups_done: 25 }), method: :post, remote: true, class: "btn btn-success mt-4", data: { turbo: "true" } %>
+  </div>
+</div>

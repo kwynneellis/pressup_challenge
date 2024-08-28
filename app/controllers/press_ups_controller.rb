@@ -3,6 +3,8 @@ class PressUpsController < ApplicationController
 
   def index
     @press_ups_today = calculate_press_ups_for_today
+    @press_ups_done_today = current_user.logs.where(date: Date.today).sum(:press_ups_done)
+    @press_ups_remaining_today = [@press_ups_today - @press_ups_done_today, 0].max
   end
 
   private
