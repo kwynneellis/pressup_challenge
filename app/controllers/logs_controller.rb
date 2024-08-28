@@ -1,31 +1,15 @@
 class LogsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_press_up_stats, only: [:create, :reset_logs]
+  before_action :render_turbo_stream_response, only: [:create, :reset_logs], if: -> { request.format.turbo_stream? }
 
   def create
-    # Create a new log entry for the current user
     @log = current_user.logs.build(log_params)
 
     if @log.save
-      # Recalculate the user's total and today's press-ups
-      total_done_today = current_user.logs.where(date: Date.today).sum(:press_ups_done)
-      current_user.update(
-        press_ups_done_today: total_done_today,
-        total_press_ups: current_user.total_press_ups + @log.press_ups_done
-      )
-
-      # Calculate today's press-ups and the remaining press-ups for today
-      @press_ups_today = calculate_press_ups_for_today
-      @press_ups_done_today = total_done_today
-      @press_ups_remaining_today = [@press_ups_today - @press_ups_done_today, 0].max
-
+      update_user_press_up_stats(@log.press_ups_done)
       respond_to do |format|
         format.html { redirect_to press_ups_path, notice: 'Press-ups logged successfully!' }
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.replace('press-ups', partial: 'press_ups/press_ups_today', locals: { press_ups_today: @press_ups_today, press_ups_done_today: @press_ups_done_today, press_ups_remaining_today: @press_ups_remaining_today }),
-            turbo_stream.replace('log-all-press-ups', partial: 'press_ups/log_all_button', locals: { press_ups_remaining_today: @press_ups_remaining_today })
-          ]
-        end
       end
     else
       redirect_to press_ups_path, alert: 'Failed to log press-ups.'
@@ -37,25 +21,13 @@ class LogsController < ApplicationController
   end
 
   def reset_logs
-    # Find and delete all logs for today for the current user
     today_logs = current_user.logs.where(date: Date.today)
 
     if today_logs.exists?
       today_logs.destroy_all
-      current_user.update(press_ups_done_today: 0)
-      # Recalculate today's press-ups after reset
-      @press_ups_today = calculate_press_ups_for_today
-      @press_ups_done_today = 0
-      @press_ups_remaining_today = @press_ups_today
-      
+      update_user_press_up_stats(0, reset: true)
       respond_to do |format|
         format.html { redirect_to press_ups_path, notice: "Today's logs have been reset." }
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.replace('press-ups', partial: 'press_ups/press_ups_today', locals: { press_ups_today: @press_ups_today, press_ups_done_today: @press_ups_done_today, press_ups_remaining_today: @press_ups_remaining_today }),
-            turbo_stream.replace('log-all-press-ups', partial: 'press_ups/log_all_button', locals: { press_ups_remaining_today: @press_ups_remaining_today })
-          ]
-        end
       end
     else
       redirect_to press_ups_path, alert: "No logs to reset for today."
@@ -69,9 +41,35 @@ class LogsController < ApplicationController
   end
 
   def calculate_press_ups_for_today
-    # Calculate the number of days since the challenge started
-    days_since_start = (Date.today - current_user.start_date).to_i + 1
-    # The number of press-ups required today is equal to the day of the challenge
-    days_since_start
+    (Date.today - current_user.start_date).to_i + 1
+  end
+
+  def update_user_press_up_stats(press_ups_done, reset: false)
+    if reset
+      @press_ups_done_today = 0
+    else
+      @press_ups_done_today = current_user.logs.where(date: Date.today).sum(:press_ups_done)
+    end
+
+    @press_ups_today = calculate_press_ups_for_today
+    @press_ups_remaining_today = [@press_ups_today - @press_ups_done_today, 0].max
+
+    current_user.update(
+      press_ups_done_today: @press_ups_done_today,
+      total_press_ups: reset ? current_user.total_press_ups - press_ups_done : current_user.total_press_ups + press_ups_done
+    )
+  end
+
+  def render_turbo_stream_response
+    render turbo_stream: [
+      turbo_stream.replace('press-ups', partial: 'press_ups/press_ups_today', locals: { press_ups_today: @press_ups_today, press_ups_done_today: @press_ups_done_today, press_ups_remaining_today: @press_ups_remaining_today }),
+      turbo_stream.replace('log-all-press-ups', partial: 'press_ups/log_all_button', locals: { press_ups_remaining_today: @press_ups_remaining_today })
+    ]
+  end
+
+  def set_press_up_stats
+    @press_ups_today = calculate_press_ups_for_today
+    @press_ups_done_today = current_user.logs.where(date: Date.today).sum(:press_ups_done)
+    @press_ups_remaining_today = [@press_ups_today - @press_ups_done_today, 0].max
   end
 end
