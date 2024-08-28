@@ -1,0 +1,10 @@
+<% if @press_ups_remaining_today > 0 %>
+  <%= button_to "+#{@press_ups_remaining_today}", 
+                logs_path(log: { date: Date.today, press_ups_done: @press_ups_remaining_today }), 
+                method: :post, 
+                remote: true, 
+                class: "btn btn-primary mt-4",
+                data: { turbo: "true" } %>
+<% else %>
+  <button class="btn btn-primary mt-4" disabled>0</button>
+<% end %>

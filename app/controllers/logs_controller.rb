@@ -21,13 +21,10 @@ class LogsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to press_ups_path, notice: 'Press-ups logged successfully!' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            'press-ups',
-            partial: 'press_ups/press_ups_today',
-            locals: { press_ups_today: @press_ups_today,
-                      press_ups_done_today: @press_ups_done_today,
-                      press_ups_remaining_today: @press_ups_remaining_today }
-          )
+          render turbo_stream: [
+            turbo_stream.replace('press-ups', partial: 'press_ups/press_ups_today', locals: { press_ups_today: @press_ups_today, press_ups_done_today: @press_ups_done_today, press_ups_remaining_today: @press_ups_remaining_today }),
+            turbo_stream.replace('log-all-press-ups', partial: 'press_ups/log_all_button', locals: { press_ups_remaining_today: @press_ups_remaining_today })
+          ]
         end
       end
     else
@@ -37,6 +34,32 @@ class LogsController < ApplicationController
 
   def index
     @logs = current_user.logs.order(created_at: :desc)
+  end
+
+  def reset_logs
+    # Find and delete all logs for today for the current user
+    today_logs = current_user.logs.where(date: Date.today)
+
+    if today_logs.exists?
+      today_logs.destroy_all
+      current_user.update(press_ups_done_today: 0)
+      # Recalculate today's press-ups after reset
+      @press_ups_today = calculate_press_ups_for_today
+      @press_ups_done_today = 0
+      @press_ups_remaining_today = @press_ups_today
+      
+      respond_to do |format|
+        format.html { redirect_to press_ups_path, notice: "Today's logs have been reset." }
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace('press-ups', partial: 'press_ups/press_ups_today', locals: { press_ups_today: @press_ups_today, press_ups_done_today: @press_ups_done_today, press_ups_remaining_today: @press_ups_remaining_today }),
+            turbo_stream.replace('log-all-press-ups', partial: 'press_ups/log_all_button', locals: { press_ups_remaining_today: @press_ups_remaining_today })
+          ]
+        end
+      end
+    else
+      redirect_to press_ups_path, alert: "No logs to reset for today."
+    end
   end
 
   private
