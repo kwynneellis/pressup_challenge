@@ -1,0 +1,15 @@
+<div class="scroll-header d-flex justify-content-between">
+  <a href="#" class="scroll-item"><%= @date.strftime("%B") %></a>
+  <a href="<%= day_press_ups_path(Date.today) %>" class="scroll-item">Today</a>
+</div>
+<div class="scroll-navbar" data-controller="navbar-scroll" data-navbar-scroll-target="container">
+  <% (current_user.start_date..current_user.end_date).each do |date| %>
+    <a href="<%= day_press_ups_path(date) %>" 
+       class="scroll-item <%= 'active' if date == @date %> <%= 'today' if date == Date.today %>"
+       <%= 'data-navbar-scroll-target=activeItem' if date == @date %>
+       data-action="click->navbar-scroll#setActiveItem">
+      <small class="weekday"><%= date.strftime("%a") %></small><br>
+      <span class="day"><%= date.strftime("%d") %></span>
+    </a>
+  <% end %>
+</div>

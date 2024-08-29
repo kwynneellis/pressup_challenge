@@ -10,4 +10,8 @@ class User < ApplicationRecord
 
   # Associations
   has_many :logs, dependent: :destroy
+
+  def end_date
+    Date.new(self.start_date.year, 12, 31)
+  end
 end
