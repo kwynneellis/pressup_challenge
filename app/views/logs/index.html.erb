@@ -1,4 +1,13 @@
 <h1>Your logs</h1>
+<div class="row border-bottom mb-1 bg-light">
+  <div class="col-2">#</div>
+  <div class="col">Date of press-ups</div>
+  <div class="col">Amount</div>
+</div>
 <% @logs.each do |log| %>
-<p>ID: <%= log.id %>, date: <%= log.date %>, press-ups: <%= log.press_ups_done %></p>
+<div class="row border-bottom">
+  <div class="col-2"><%= log.id %></div>
+  <div class="col"><%= log.date.strftime("%d/%m/%Y") %></div>
+  <div class="col"><%= log.press_ups_done %></div>
+</div>
 <% end %>

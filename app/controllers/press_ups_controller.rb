@@ -12,18 +12,34 @@ class PressUpsController < ApplicationController
     render :index
   end
 
+  def day
+    @date = params[:date]&.to_date || Date.today
+    load_press_up_data(@date)
+
+    respond_to do |format|
+      format.html { render :day }
+      format.turbo_stream { render_turbo_stream_response(@date) }
+    end
+  end
+
   private
 
   def load_press_up_data(date)
-    @press_ups_today = calculate_press_ups_for_date(date)
-    @press_ups_done_today = current_user.logs.where(date: date).sum(:press_ups_done)
-    @press_ups_remaining_today = [@press_ups_today - @press_ups_done_today, 0].max
-    @press_ups_done_today_percentage = (@press_ups_done_today.to_f / @press_ups_today * 100).round(2)
+    @press_up_target = current_user.press_up_target_for(date)
+    @press_ups_done = current_user.logs.where(date: date).sum(:press_ups_done)
+    @press_ups_remaining_today = [@press_up_target - @press_ups_done, 0].max
+    @press_ups_done_as_percentage = (@press_ups_done.to_f / @press_up_target * 100).round(2)
   end
 
-  def calculate_press_ups_for_date(date)
-    days_since_start = (date - current_user.start_date).to_i + 1
-    days_since_start
+  def render_turbo_stream_response(date)
+    render turbo_stream: [
+      turbo_stream.replace("press-ups-#{date}", partial: 'press_ups/on_date', locals: {
+        press_ups_target: @press_up_target,
+        press_ups_done: @press_ups_done,
+        press_ups_remaining: @press_ups_remaining_today,
+        press_ups_done_as_percentage: @press_ups_done_as_percentage
+      }),
+      turbo_stream.replace('log-all-press-ups', partial: 'press_ups/log_all_button', locals: { press_ups_remaining: @press_ups_remaining_today })
+    ]
   end
-  
 end

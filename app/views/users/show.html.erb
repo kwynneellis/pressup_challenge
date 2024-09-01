@@ -1,8 +1,34 @@
 <h4>Hi <%= @current_user.username %></h4>
+<div class="row">
+  <div class="col"><p>Start date: </p></div>
+  <div class="col"><p><%= @user.start_date %></p></div>
+</div>
+<div class="row">
+  <div class="col"><p>Today's stats: </p></div>
+  <div class="col"><p><%= @user.press_ups_done_today %> / <%= @user.press_up_target_today %></p></div>
+</div>
+<div class="row">
+  <div class="col"><p>Cumulative stats: </p></div>
+  <div class="col"><p><%= @user.total_press_ups %> / <%= @challenge_target_to_date %></p></div>
+</div>
 
-<p>Challenge start date: <%= @user.start_date %></p>
-<p>Total press-ups logged: <%= @user.total_press_ups %></p>
-<p>Date of challenge: <%= @user.current_day %></p>
-<p>Challenge amount: <%= @challenge_to_date %></p>
+<%= link_to "Get Logs Up-to-Date", "#", data: { bs_toggle: "modal", bs_target: "#confirmUpdateLogsModal" }, class: "btn btn-primary mt-3" %>
 
-<%= button_to "I'm up-to-date", update_press_ups_user_path, method: :patch, class: "btn btn-primary mt-3" %>
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmUpdateLogsModal" tabindex="-1" aria-labelledby="confirmUpdateLogsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmUpdateLogsModalLabel">Confirm Update</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to update all logs to be up-to-date? This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <%= button_to 'Confirm', update_all_logs_path, method: :post, class: 'btn btn-danger' %>
+      </div>
+    </div>
+  </div>
+</div>

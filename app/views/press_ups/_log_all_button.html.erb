@@ -1,6 +1,6 @@
 <% if press_ups_remaining_today > 0 %>
   <%= button_to "+ All #{press_ups_remaining_today}", 
-                logs_path(log: { date: Date.today, press_ups_done: press_ups_remaining_today }), 
+                logs_path(log: { date: date, press_ups_done: press_ups_remaining_today }), 
                 method: :post, 
                 remote: true, 
                 class: "btn btn-primary mt-4",
