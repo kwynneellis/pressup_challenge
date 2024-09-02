@@ -5,11 +5,11 @@
 </div>
 <div class="row">
   <div class="col"><p>Today's stats: </p></div>
-  <div class="col"><p><%= @user.press_ups_done_today %> / <%= @user.press_up_target_today %></p></div>
+  <div class="col"><p><%= number_with_delimiter(@user.press_ups_done_today) %> / <%= number_with_delimiter(@user.press_up_target_today) %></p></div>
 </div>
 <div class="row">
   <div class="col"><p>Cumulative stats: </p></div>
-  <div class="col"><p><%= @user.total_press_ups %> / <%= @challenge_target_to_date %></p></div>
+  <div class="col"><p><%= number_with_delimiter(@user.total_press_ups) %> / <%= @challenge_target_to_date %></p></div>
 </div>
 
 <%= link_to "Get Logs Up-to-Date", "#", data: { bs_toggle: "modal", bs_target: "#confirmUpdateLogsModal" }, class: "btn btn-primary mt-3" %>

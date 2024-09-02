@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include ActionView::Helpers::NumberHelper
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_press_up_target
 
@@ -6,7 +7,8 @@ class ApplicationController < ActionController::Base
 
   def set_press_up_target
     date = params[:date]&.to_date || Date.today
-    @press_ups_target = current_user.press_up_target_for(date)
+    @press_ups_target = number_with_delimiter(current_user.press_up_target_for(date))
+    @cumulated_press_ups = number_with_delimiter(current_user.total_press_ups)
   end
 
   protected

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :update_press_ups]
 
   def show
-    @challenge_target_to_date = @user.cumulative_press_up_target_to_date
+    @challenge_target_to_date = number_with_delimiter(@user.cumulative_press_up_target_to_date)
   end
 
   def edit
