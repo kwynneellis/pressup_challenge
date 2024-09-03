@@ -2,10 +2,10 @@
 
 one:
   user: one
-  date: 2024-08-27
-  press_ups_done: 1
+  date_of_set: 2024-08-27
+  reps_in_set: 1
 
 two:
   user: two
-  date: 2024-08-27
-  press_ups_done: 1
+  date_of_set: 2024-08-27
+  reps_in_set: 1

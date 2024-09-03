@@ -10,14 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_30_144040) do
-  create_table "logs", force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2024_09_03_195524) do
+  create_table "challenges", force: :cascade do |t|
+    t.string "name"
     t.integer "user_id", null: false
-    t.date "date"
-    t.integer "press_ups_done"
+    t.date "start_date"
+    t.string "challenge_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_logs_on_user_id"
+    t.index ["user_id"], name: "index_challenges_on_user_id"
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.date "date_of_set"
+    t.integer "reps_in_set"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "challenge_id"
+    t.boolean "completed_the_day", default: false, null: false
+    t.index ["challenge_id"], name: "index_logs_on_challenge_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -31,9 +42,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_30_144040) do
     t.string "username"
     t.date "start_date"
     t.integer "total_press_ups"
+    t.boolean "visibility", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "logs", "users"
+  add_foreign_key "challenges", "users"
+  add_foreign_key "logs", "challenges"
 end

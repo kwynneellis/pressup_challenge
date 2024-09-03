@@ -1,27 +1,27 @@
 <h2 class="text-center">Log a set</h2>
 <div class="row text-center">
   <div class="col">
-    <%= button_to "+1", logs_path(log: { date: @date, press_ups_done: 1 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+    <%= button_to "+1", logs_path(log: { date_of_set: @date, reps_in_set: 1 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
   </div>
   <div class="col">
-    <%= button_to "+5", logs_path(log: { date: @date, press_ups_done: 5 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+    <%= button_to "+5", logs_path(log: { date_of_set: @date, reps_in_set: 5 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
   </div>
 </div>
 <div class="row text-center">
   <div class="col">
-    <%= button_to "+10", logs_path(log: { date: @date, press_ups_done: 10 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+    <%= button_to "+10", logs_path(log: { date_of_set: @date, reps_in_set: 10 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
   </div>
   <div class="col">
-    <%= button_to "+25", logs_path(log: { date: @date, press_ups_done: 25 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+    <%= button_to "+25", logs_path(log: { date_of_set: @date, reps_in_set: 25 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
   </div>
 </div>
 <div class="row text-center">
   <div class="col">
     <turbo-frame id="log-all-press-ups">
-      <%= render 'press_ups/log_all_button', date: @date, press_ups_remaining: @press_ups_remaining %>
+      <%= render 'press_ups/log_all_button', date_of_set: @date, press_ups_remaining: @press_ups_remaining %>
     </turbo-frame>
   </div>
   <div class="col">
-    <%= button_to "Reset", reset_logs_path(date: @date), method: :delete, data: { turbo: "false", confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary mt-4" %>
+    <%= button_to "Reset", reset_logs_path(date_of_set: @date), method: :delete, data: { turbo: "false", confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary mt-4" %>
   </div>
 </div>

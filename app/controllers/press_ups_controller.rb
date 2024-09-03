@@ -26,7 +26,7 @@ class PressUpsController < ApplicationController
 
   def load_press_up_data(date)
     @press_up_target = current_user.press_up_target_for(date)
-    @press_ups_done = current_user.logs.where(date: date).sum(:press_ups_done)
+    @press_ups_done = current_user.logs.where(date_of_set: date).sum(:reps_in_set)
     @press_ups_remaining = [@press_up_target - @press_ups_done, 0].max
     @press_ups_done_as_percentage = (@press_ups_done.to_f / @press_up_target * 100).round(2)
   end

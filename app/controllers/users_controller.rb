@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :update_press_ups]
+  before_action :set_user, only: [:show, :edit, :update]
 
   def show
-    @challenge_target_to_date = number_with_delimiter(@user.cumulative_press_up_target_to_date)
   end
 
   def edit
@@ -24,6 +23,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :start_date, :total_press_ups)
+    # TODO: Remove :total_press_ups, :start_date
+    params.require(:user).permit(:username)
   end
 end

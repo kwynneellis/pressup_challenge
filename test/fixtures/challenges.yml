@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  user: one
+  start_date: 2024-09-03
+  challenge_type: MyString
+
+two:
+  name: MyString
+  user: two
+  start_date: 2024-09-03
+  challenge_type: MyString

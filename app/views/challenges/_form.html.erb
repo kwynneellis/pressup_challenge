@@ -1,0 +1,12 @@
+<%= form_with(model: @challenge) do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <%= form.label :start_date %>
+  <%= form.date_field :start_date %>
+
+  <%= form.label :challenge_type %>
+  <%= form.select :challenge_type, Challenge.challenge_types.keys.map { |w| [w.titleize, w] } %>
+
+  <%= form.submit %>
+<% end %>

@@ -1,0 +1,11 @@
+<% @challenges.each do |challenge| %>
+<div>
+  <h4>Name: <%= challenge.name %></h4>
+  <p>Start date: <%= challenge.start_date %></p>
+  <p>Type: <%= challenge.challenge_type %></p>
+  <p>Cumulated: <%= challenge.cumulative_reps_done %></p>
+  <p>Cumulative target: <%= challenge.cumulative_target_to_date %></p>
+  <p>Done today: <%= challenge.reps_done_today %></p>
+  <p>Target today: <%= challenge.rep_target_today %></p>
+</div>
+<% end %>
