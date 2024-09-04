@@ -1,6 +1,0 @@
-<div class="progress my-3" role="progressbar" aria-label="Success striped example" aria-valuenow="<%= press_ups_done_as_percentage %>" aria-valuemin="0" aria-valuemax="100" style="height: 3em">
-  <div class="progress-bar <%= 'progress-bar-striped' if press_ups_done_as_percentage < 100 %> bg-success" style="width: <%= press_ups_done_as_percentage %>%"><%= press_ups_done_as_percentage.round %>%</div>
-  <% if press_ups_done_as_percentage == 0 %>
-    <div class="progress-bar bg-secondary-subtle text-dark" style="width: 100%">0%</div>
-  <% end %>
-</div>
