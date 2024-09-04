@@ -7,9 +7,9 @@ class LogsController < ApplicationController
     @log = @challenge.logs.new(log_params)
 
     if @log.save
-      redirect_to day_press_ups_path(date_of_set: date), notice: 'Press-ups logged successfully!'
+      redirect_to day_challenge_path(@challenge, date: date), notice: 'Press-ups logged successfully!'
     else
-      redirect_to day_press_ups_path(date_of_set: date), alert: 'Failed to log press-ups.'
+      redirect_to day_challenge_path(@challenge, date: date), alert: 'Failed to log press-ups.'
     end
   end
 
@@ -23,9 +23,9 @@ class LogsController < ApplicationController
 
     if day_logs.exists?
       day_logs.destroy_all
-      redirect_to day_press_ups_path(date_of_set: date), notice: "#{date}'s logs have been reset."
+      redirect_to day_challenge_path(@challenge, date: date), notice: "#{date}'s logs have been reset."
     else
-      redirect_to day_press_ups_path(date_of_set: date), alert: "No logs to reset for #{date}."
+      redirect_to day_challenge_path(@challenge, date: date), alert: "No logs to reset for #{date}."
     end
   end
 

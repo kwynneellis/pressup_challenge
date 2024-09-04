@@ -1,0 +1,27 @@
+<h2 class="text-center">Log a set</h2>
+<div class="row text-center">
+  <div class="col">
+    <%= button_to "+1", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 1 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+  </div>
+  <div class="col">
+    <%= button_to "+5", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 5 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+  </div>
+</div>
+<div class="row text-center">
+  <div class="col">
+    <%= button_to "+10", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 10 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+  </div>
+  <div class="col">
+    <%= button_to "+25", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 25 }), method: :post, remote: true, class: "btn btn-primary mt-4", data: { turbo: "false" } %>
+  </div>
+</div>
+<div class="row text-center">
+  <div class="col">
+    <turbo-frame id="log-all-reps">
+      <%= render 'challenges/log_all_button', date_of_set: @date, reps_remaining: @reps_remaining %>
+    </turbo-frame>
+  </div>
+  <div class="col">
+    <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { turbo: "false", confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary mt-4" %>
+  </div>
+</div>

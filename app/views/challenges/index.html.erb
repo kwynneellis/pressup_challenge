@@ -1,11 +1,12 @@
 <% @challenges.each do |challenge| %>
-<div>
-  <h4>Name: <%= challenge.name %></h4>
-  <p>Start date: <%= challenge.start_date %></p>
-  <p>Type: <%= challenge.challenge_type %></p>
-  <p>Cumulated: <%= challenge.cumulative_reps_done %></p>
-  <p>Cumulative target: <%= challenge.cumulative_target_to_date %></p>
-  <p>Done today: <%= challenge.reps_done_today %></p>
-  <p>Target today: <%= challenge.rep_target_today %></p>
-</div>
+  <%= link_to challenge_path(challenge), class: "card-link" do %>
+    <div class="card text-bg-light mb-3">
+      <div class="card-header"><%= challenge.name.titleize %></div>
+      <div class="card-body">
+        <h5 class="card-title">Today: <%= number_with_delimiter(challenge.reps_done_today) %> / <%= number_with_delimiter(challenge.rep_target_today) %></h5>
+        <p class="card-text">Cumulative: <%= number_with_delimiter(challenge.cumulative_reps_done) %> / <%= number_with_delimiter(challenge.cumulative_target_to_date) %></p>
+        <p class="card-text"><small class="text-body-secondary">Started on <%= challenge.start_date.strftime("%d %b %Y") %></small></p>
+      </div>
+    </div>
+  <% end %>
 <% end %>

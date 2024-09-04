@@ -41,7 +41,7 @@ class Challenge < ApplicationRecord
 
   def rep_target_for(date)
     # Calculate the number of days since the challenge started
-    days_since_start = (date - start_date).to_i + 1
+    days_since_start = (date - self.start_date).to_i + 1
     # The number of reps required for that date
     days_since_start
   end
@@ -49,7 +49,7 @@ class Challenge < ApplicationRecord
   def cumulative_target_to_date
     return 0 if start_date.nil?
 
-    days_since_start = (Date.today - start_date).to_i + 1
+    days_since_start = (Date.today - self.start_date).to_i + 1
     (days_since_start * (days_since_start + 1)) / 2
   end
 end
