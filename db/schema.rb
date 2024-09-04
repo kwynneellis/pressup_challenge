@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_03_195524) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_04_194525) do
   create_table "challenges", force: :cascade do |t|
     t.string "name"
     t.integer "user_id", null: false
@@ -40,8 +40,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_03_195524) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
-    t.date "start_date"
-    t.integer "total_press_ups"
     t.boolean "visibility", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
