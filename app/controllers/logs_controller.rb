@@ -1,6 +1,6 @@
 class LogsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_challenge
+  before_action :set_challenge, only: [:create, :index, :reset_logs, :update_all_logs]
 
   def create
     date = params[:log][:date_of_set] || Date.today
@@ -43,6 +43,14 @@ class LogsController < ApplicationController
     redirect_to challenge_path(@challenge), notice: "Your logs have been updated to be up-to-date."
   rescue => e
     redirect_to challenge_path(@challenge), alert: "There was an error updating your logs: #{e.message}"
+  end
+
+  def index_all
+    # Fetch all logs for users who have visibility set to true
+    @logs = Log.joins(challenge: :user)
+               .where(users: { visibility: true })
+               .order(created_at: :desc)
+               .includes(:challenge, :user) # Eager load associated records to prevent N+1 queries
   end
 
   private

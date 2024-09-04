@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resource :user, only: [:show, :edit, :update]
+  resource :user, only: [:show, :edit, :update] do
+    patch :toggle_visibility, on: :collection
+  end
 
   resources :challenges, only: [:index, :show] do
     member do
@@ -15,6 +17,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'logs/all', to: 'logs#index_all', as: 'all_logs'
 
   root to: "challenges#index"
 end

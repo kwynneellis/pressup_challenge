@@ -1,0 +1,10 @@
+<h1>Activity Feed</h1>
+
+<% @logs.each do |log| %>
+  <div class="log-entry">
+    <p>
+      <strong><%= log.user.username %></strong>
+      logged <%= log.reps_in_set %> reps on <%= log.date_of_set.strftime("%d %b") %> in their <%= log.challenge.name %>.
+    </p>
+  </div>
+<% end %>

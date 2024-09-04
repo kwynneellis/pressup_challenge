@@ -7,4 +7,11 @@
   <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary", role: "button" %>
   <% end %>
   </div>
+
+  <div class="form-check form-switch">
+    <%= form_with url: toggle_visibility_user_path, method: :patch, local: true do %>
+      <%= check_box_tag 'user[visibility]', '1', current_user.visibility, class: 'form-check-input', onchange: 'this.form.submit();' %>
+      <%= label_tag 'user[visibility]', 'Make my profile visible', class: 'form-check-label' %>
+    <% end %>
+</div>
 </div>

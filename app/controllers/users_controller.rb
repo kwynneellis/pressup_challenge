@@ -1,11 +1,16 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :toggle_visibility]
 
   def show
   end
 
   def edit
+  end
+
+  def toggle_visibility
+    @user.update(visibility: !@user.visibility)
+    redirect_to user_path, notice: 'Visibility updated successfully.'
   end
 
   def update
