@@ -1,1 +1,10 @@
-<p> USER SHOW PAGE </p>
+<div class="position-relative">
+  <p> Welcome back, <%= current_user.username %> 👋</p>
+  <div class="position-absolute top-0 end-0">
+  <% if user_signed_in? %>
+  <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "btn btn-outline-secondary", role: "button" %>
+  <% else %>
+  <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary", role: "button" %>
+  <% end %>
+  </div>
+</div>

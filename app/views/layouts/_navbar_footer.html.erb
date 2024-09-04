@@ -1,0 +1,8 @@
+<nav class="navbar navbar-expand-sm fixed-bottom bg-body-tertiary">
+  <div class="container-fluid">
+    <% if user_signed_in? %>
+      <a class="navbar-brand" href="/">📋 </a>
+      <%= link_to "⚙️ ", edit_user_registration_path, class: "navbar-brand" %>
+    <% end %>
+  </div>
+</nav>
