@@ -1,6 +1,9 @@
 class Challenge < ApplicationRecord
   # Associations
-  belongs_to :user
+  has_many :participations, dependent: :destroy
+  has_many :participants, through: :participations, source: :user
+
+  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
   has_many :logs, dependent: :destroy
 
   enum challenge_type: {
@@ -8,6 +11,12 @@ class Challenge < ApplicationRecord
     fixed: 'Fixed',
     incremental: 'Incremental'
   }
+
+  # Scopes for filtering challenges based on their status
+  scope :active, -> { where(active: true, archive: false) }
+  scope :archived, -> { where(archive: true) }
+  scope :public_active, -> { where(public: true, active: true, archive: false) }
+  scope :public_visible, -> { where(public: true, archive: false) }
 
   # Validations
   validates :name, presence: true

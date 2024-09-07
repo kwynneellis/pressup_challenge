@@ -1,0 +1,14 @@
+<h1>Public Challenges</h1>
+
+<% @public_challenges.each do |challenge| %>
+  <div class="card">
+    <div class="card-header">
+      <%= link_to challenge.name.titleize, challenge_path(challenge) %>
+    </div>
+    <div class="card-body">
+      <p>Started on: <%= challenge.start_date.strftime("%d %b %Y") %></p>
+      <p>Created by: <%= challenge.created_by_user.username %></p>
+      <%= link_to 'Join Challenge', join_challenge_path(challenge), class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

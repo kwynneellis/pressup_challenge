@@ -3,7 +3,22 @@ class ChallengesController < ApplicationController
   before_action :set_challenge, only: [:show, :show_by_date, :edit, :update, :destroy]
 
   def index
-    @challenges = current_user.challenges
+    @challenges = current_user.joined_challenges
+  end
+
+  def public_index
+    @public_challenges = Challenge.where(public: true)
+  end
+
+  def join
+    @challenge = Challenge.find(params[:id])
+
+    if @challenge.active? && !@challenge.archive?
+      Participation.create(user: current_user, challenge: @challenge)
+      redirect_to @challenge, notice: "You have joined the challenge!"
+    else
+      redirect_to challenges_path, alert: "This challenge is no longer available to join."
+    end
   end
 
   def show
@@ -33,6 +48,8 @@ class ChallengesController < ApplicationController
 
   def create
     @challenge = current_user.challenges.new(challenge_params)
+    @challenge.created_by_user = current_user
+
     if @challenge.save
       redirect_to @challenge, notice: "Challenge created successfully."
     else
@@ -56,11 +73,11 @@ class ChallengesController < ApplicationController
   private
 
   def set_challenge
-    @challenge = current_user.challenges.find(params[:id])
+    @challenge = current_user.joined_challenges.find(params[:id])
   end
 
   def challenge_params
-    params.require(:challenge).permit(:name)
+    params.require(:challenge).permit(:name, :start_date, :public, :created_by_user_id)
   end
 
   def load_log_data_for(date)

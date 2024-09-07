@@ -5,11 +5,12 @@ class LogsController < ApplicationController
   def create
     date = params[:log][:date_of_set] || Date.today
     @log = @challenge.logs.new(log_params)
+    @log.user = current_user
 
     if @log.save
-      redirect_to day_challenge_path(@challenge, date: date), notice: 'Press-ups logged successfully!'
+      redirect_to day_challenge_path(@challenge, date: date), notice: 'Log was successful!'
     else
-      redirect_to day_challenge_path(@challenge, date: date), alert: 'Failed to log press-ups.'
+      redirect_to day_challenge_path(@challenge, date: date), alert: 'Failed to log.'
     end
   end
 
@@ -46,20 +47,22 @@ class LogsController < ApplicationController
   end
 
   def index_all
-    # Fetch all logs for users who have visibility set to true
-    @logs = Log.joins(challenge: :user)
-               .where(users: { visibility: true })
+    @logs = Log.joins(challenge: :participations)
+               .where("challenges.public = ? OR participations.user_id = ?", true, current_user.id)
+               .includes(:challenge, :user)
                .order(created_at: :desc)
-               .includes(:challenge, :user) # Eager load associated records to prevent N+1 queries
   end
 
   private
 
   def set_challenge
-    @challenge = current_user.challenges.find(params[:challenge_id])
+    @challenge = Challenge.find(params[:challenge_id])
+    unless @challenge
+      redirect_to challenges_path, alert: "Challenge not found."
+    end
   end
 
   def log_params
-    params.require(:log).permit(:reps_in_set, :date_of_set)
+    params.require(:log).permit(:date_of_set, :reps_in_set, :completed_the_day)
   end
 end

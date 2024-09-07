@@ -10,15 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_04_194525) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_06_171503) do
   create_table "challenges", force: :cascade do |t|
     t.string "name"
-    t.integer "user_id", null: false
+    t.integer "creator_id", null: false
     t.date "start_date"
     t.string "challenge_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_challenges_on_user_id"
+    t.boolean "public", default: false
+    t.boolean "active"
+    t.boolean "archive"
+    t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
   create_table "logs", force: :cascade do |t|
@@ -28,7 +31,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_04_194525) do
     t.datetime "updated_at", null: false
     t.integer "challenge_id"
     t.boolean "completed_the_day", default: false, null: false
+    t.integer "user_id"
     t.index ["challenge_id"], name: "index_logs_on_challenge_id"
+    t.index ["user_id"], name: "index_logs_on_user_id"
+  end
+
+  create_table "participations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "challenge_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"], name: "index_participations_on_challenge_id"
+    t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -45,6 +59,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_04_194525) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "challenges", "users"
+  add_foreign_key "challenges", "users", column: "creator_id"
   add_foreign_key "logs", "challenges"
+  add_foreign_key "logs", "users"
+  add_foreign_key "participations", "challenges"
+  add_foreign_key "participations", "users"
 end

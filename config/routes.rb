@@ -5,10 +5,15 @@ Rails.application.routes.draw do
     patch :toggle_visibility, on: :collection
   end
 
-  resources :challenges, only: [:index, :show] do
+  resources :challenges do
     member do
       get 'day/:date', action: :show_by_date, as: :day
       post 'update_logs', to: 'challenges#update_all_logs', as: 'update_all_logs'
+      post 'join', to: 'challenges#join', as: 'join'
+    end
+  
+    collection do
+      get 'public', to: 'challenges#public_index', as: 'public'
     end
 
     resources :logs, only: [:create, :index, :destroy] do

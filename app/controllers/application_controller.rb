@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def set_info
     date = params[:date]&.to_date || Date.today
-    @challenge_count = current_user.challenges.count
+    @challenge_count = current_user.joined_challenges.count
   end
 
   protected
