@@ -1,10 +1,23 @@
-<h1>Activity Feed</h1>
+<% @logs_by_date_user_and_challenge.each do |(date, user, challenge), logs| %>
+  <div class="card mb-3">
+    <div class="card-header">
+      <strong><%= user.username %></strong> in their <%= link_to challenge.name.titleize, challenge_path(challenge), class: "text-decoration-none text-reset" %>
+      <br><small class="text-body-secondary"><%= date.strftime("%d %b %Y") %></small>
+    </div>
+    <div class="card-body">
+      <div class="d-flex flex-wrap mb-3">
+        <% logs.each do |log| %>
+          <div class="btn border-success bg-success-subtle m-1"><%= log.reps_in_set %></div>
+        <% end %>
+      </div>
+      
+      <% total_reps = logs.sum(&:reps_in_set) %>
+      <% target_reps = challenge.rep_target_for(date) %>
 
-<% @logs.each do |log| %>
-  <div class="log-entry">
-    <p>
-      <strong><%= log.user.username %></strong>
-      logged <%= log.reps_in_set %> reps on <%= log.date_of_set.strftime("%d %b") %> in their <%= log.challenge.name %>.
-    </p>
+      <p><strong>Total reps:</strong> <%= total_reps %> / <%= target_reps %> reps</p>
+      <% if total_reps >= target_reps %>
+        <p class="text-success"><strong>Target reached! 🎉</strong></p>
+      <% end %>
+    </div>
   </div>
 <% end %>

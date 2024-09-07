@@ -47,10 +47,14 @@ class LogsController < ApplicationController
   end
 
   def index_all
-    @logs = Log.joins(challenge: :participations)
-               .where("challenges.public = ? OR participations.user_id = ?", true, current_user.id)
-               .includes(:challenge, :user)
-               .order(created_at: :desc)
+    # Fetch logs and join participations
+    logs = Log.joins(challenge: :participations)
+              .where("challenges.public = ? OR participations.user_id = ?", true, current_user.id)
+              .includes(:challenge, :user)
+              .order(created_at: :desc)
+
+    # Group logs by date, user and challenge
+    @logs_by_date_user_and_challenge = logs.group_by { |log| [log.date_of_set, log.user, log.challenge] }
   end
 
   private

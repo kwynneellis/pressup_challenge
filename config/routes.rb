@@ -25,5 +25,5 @@ Rails.application.routes.draw do
 
   get 'logs/all', to: 'logs#index_all', as: 'all_logs'
 
-  root to: "challenges#index"
+  root to: "logs#index_all"
 end
