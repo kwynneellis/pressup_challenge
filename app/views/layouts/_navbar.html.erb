@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light mb-2">
   <div class="container-fluid">
     <%= link_to "🏠", root_path, class: "navbar-brand" %>
-    <%= link_to "💪", challenges_path, class: "navbar-brand" %>
+    <%= link_to "💪 #{@challenge_count}", challenges_path, class: "navbar-brand" %>
     <%= link_to "👤", user_path, class: "navbar-brand" %>
   </div>
 </nav>

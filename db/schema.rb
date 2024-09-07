@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_06_171503) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_07_141212) do
   create_table "challenges", force: :cascade do |t|
     t.string "name"
     t.integer "creator_id", null: false
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_06_171503) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "public", default: false
-    t.boolean "active"
+    t.boolean "active", default: false
     t.boolean "archive"
     t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end

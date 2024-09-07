@@ -14,10 +14,7 @@
       <% total_reps = logs.sum(&:reps_in_set) %>
       <% target_reps = challenge.rep_target_for(date) %>
 
-      <p><strong>Total reps:</strong> <%= total_reps %> / <%= target_reps %> reps</p>
-      <% if total_reps >= target_reps %>
-        <p class="text-success"><strong>Target reached! 🎉</strong></p>
-      <% end %>
+      <p><%= '🎉 ' if total_reps >= target_reps %><strong>Progress:</strong> <%= total_reps %> / <%= target_reps %> reps</p>
     </div>
   </div>
 <% end %>

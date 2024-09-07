@@ -1,14 +1,18 @@
-<h1>Public Challenges</h1>
-
-<% @public_challenges.each do |challenge| %>
-  <div class="card">
-    <div class="card-header">
-      <%= link_to challenge.name.titleize, challenge_path(challenge) %>
+<h1>Challenges</h1> 
+<% if @public_challenges.empty? %>
+  <p>We're sorry, there are no public challenges to join.</p>
+  <%= link_to 'Create a challenge', new_challenge_path, class: "btn btn-primary" %>
+<% else %>
+  <% @public_challenges.each do |challenge| %>
+    <div class="card">
+      <div class="card-header">
+        <%= link_to challenge.name.titleize, challenge_path(challenge), class: "text-decoration-none text-reset" %>
+      </div>
+      <div class="card-body">
+        <p>Started on: <%= challenge.start_date.strftime("%d %b %Y") %></p>
+        <p>Created by: <%= challenge.creator.username %></p>
+        <%= button_to 'Join Challenge', join_challenge_path(@challenge), method: :post, class: "btn btn-primary" %>
+      </div>
     </div>
-    <div class="card-body">
-      <p>Started on: <%= challenge.start_date.strftime("%d %b %Y") %></p>
-      <p>Created by: <%= challenge.created_by_user.username %></p>
-      <%= link_to 'Join Challenge', join_challenge_path(challenge), class: "btn btn-primary" %>
-    </div>
-  </div>
+  <% end %>
 <% end %>

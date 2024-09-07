@@ -7,15 +7,30 @@ class ChallengesController < ApplicationController
   end
 
   def public_index
-    @public_challenges = Challenge.where(public: true)
+    # Get all public challenges
+    all_public_challenges = Challenge.where(public: true)
+  
+    # Exclude challenges that the current user has already joined
+    @public_challenges = all_public_challenges.reject do |challenge|
+      current_user.joined_challenges.exists?(challenge.id)
+    end
   end
 
   def join
     @challenge = Challenge.find(params[:id])
-
-    if @challenge.active? && !@challenge.archive?
-      Participation.create(user: current_user, challenge: @challenge)
-      redirect_to @challenge, notice: "You have joined the challenge!"
+    Rails.logger.debug @challenge.errors.full_messages
+  
+    # Check if the challenge is not archived
+    if !@challenge.archive?
+      
+      # Check if the user has already joined the challenge
+      if current_user.joined_challenges.exists?(@challenge.id)
+        redirect_to @challenge, alert: "You have already joined this challenge."
+      else
+        Participation.create(user: current_user, challenge: @challenge)
+        redirect_to @challenge, notice: "You have successfully joined the challenge!"
+      end
+  
     else
       redirect_to challenges_path, alert: "This challenge is no longer available to join."
     end
@@ -24,6 +39,10 @@ class ChallengesController < ApplicationController
   def show
     @date = Date.today
     load_log_data_for(@date)
+    # Allow users to see the show page if they created the challenge or have joined it
+    unless @challenge.public? || @challenge.creator == current_user || @challenge.participations.exists?(user: current_user)
+      redirect_to challenges_path, alert: "You do not have permission to view this challenge."
+    end
   end
 
   def show_by_date
@@ -43,12 +62,11 @@ class ChallengesController < ApplicationController
   end
 
   def new
-    @challenge = current_user.challenges.new
+    @challenge = Challenge.new
   end
 
   def create
-    @challenge = current_user.challenges.new(challenge_params)
-    @challenge.created_by_user = current_user
+    @challenge = current_user.created_challenges.new(challenge_params)
 
     if @challenge.save
       redirect_to @challenge, notice: "Challenge created successfully."
@@ -73,11 +91,11 @@ class ChallengesController < ApplicationController
   private
 
   def set_challenge
-    @challenge = current_user.joined_challenges.find(params[:id])
+    @challenge = Challenge.find(params[:id])
   end
 
   def challenge_params
-    params.require(:challenge).permit(:name, :start_date, :public, :created_by_user_id)
+    params.require(:challenge).permit(:name, :start_date, :challenge_type, :public)
   end
 
   def load_log_data_for(date)

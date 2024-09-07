@@ -18,6 +18,8 @@ class Challenge < ApplicationRecord
   scope :public_active, -> { where(public: true, active: true, archive: false) }
   scope :public_visible, -> { where(public: true, archive: false) }
 
+  before_save :set_active_and_archive
+
   # Validations
   validates :name, presence: true
   validates :start_date, presence: true
@@ -60,5 +62,14 @@ class Challenge < ApplicationRecord
 
     days_since_start = (Date.today - self.start_date).to_i + 1
     (days_since_start * (days_since_start + 1)) / 2
+  end
+
+  private
+
+  def set_active_and_archive
+    if start_date.present?
+      self.active = start_date <= Date.today && (self.end_date.nil? || self.end_date >= Date.today)
+    end
+    self.archive = false if archive.nil? # Ensure archive is either false or set explicitly
   end
 end

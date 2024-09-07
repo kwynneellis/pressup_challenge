@@ -1,12 +1,37 @@
-<%= form_with(model: @challenge) do |form| %>
-  <%= form.label :name %>
-  <%= form.text_field :name %>
+<%= form_with(model: @challenge, local: true) do |form| %>
+<% if @challenge.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@challenge.errors.count, "error") %> prohibited this challenge from being saved:</h2>
 
-  <%= form.label :start_date %>
-  <%= form.date_field :start_date %>
+      <ul>
+        <% @challenge.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
 
-  <%= form.label :challenge_type %>
-  <%= form.select :challenge_type, Challenge.challenge_types.keys.map { |w| [w.titleize, w] } %>
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date %>
+  </div>
 
-  <%= form.submit %>
+  <div class="field">
+    <%= form.label :challenge_type %>
+    <%= form.select :challenge_type, Challenge.challenge_types.keys.map { |w| [w.titleize, w] } %>
+  </div>
+
+  <div class="form-check form-switch">
+    <%= form.check_box :public, class: 'form-check-input' %>
+    <%= form.label :public, class: 'form-check-label' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create Challenge' %>
+  </div>
+
 <% end %>
