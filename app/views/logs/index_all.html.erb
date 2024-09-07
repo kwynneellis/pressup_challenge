@@ -1,7 +1,7 @@
 <% @logs_by_date_user_and_challenge.each do |(date, user, challenge), logs| %>
   <div class="card mb-3">
     <div class="card-header">
-      <strong><%= user.username %></strong> in their <%= link_to challenge.name.titleize, challenge_path(challenge), class: "text-decoration-none text-reset" %>
+      <strong><%= user.username %>'s</strong> <small><%= link_to challenge.name.titleize, challenge_path(challenge), class: "text-reset" %></small>
       <br><small class="text-body-secondary"><%= date.strftime("%d %b %Y") %></small>
     </div>
     <div class="card-body">

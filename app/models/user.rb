@@ -14,4 +14,7 @@ class User < ApplicationRecord
   has_many :joined_challenges, through: :participations, source: :challenge
   has_many :logs, through: :joined_challenges
 
+  def participating_in?(challenge)
+    joined_challenges.exists?(challenge.id)
+  end
 end

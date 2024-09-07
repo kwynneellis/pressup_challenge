@@ -1,6 +1,6 @@
 class ChallengesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_challenge, only: [:show, :show_by_date, :edit, :update, :destroy]
+  before_action :set_challenge, only: [:show, :join, :leave, :show_by_date, :edit, :update, :destroy]
 
   def index
     @challenges = current_user.joined_challenges
@@ -12,19 +12,16 @@ class ChallengesController < ApplicationController
   
     # Exclude challenges that the current user has already joined
     @public_challenges = all_public_challenges.reject do |challenge|
-      current_user.joined_challenges.exists?(challenge.id)
+      current_user.participating_in?(challenge.id)
     end
   end
 
   def join
-    @challenge = Challenge.find(params[:id])
-    Rails.logger.debug @challenge.errors.full_messages
-  
     # Check if the challenge is not archived
     if !@challenge.archive?
       
       # Check if the user has already joined the challenge
-      if current_user.joined_challenges.exists?(@challenge.id)
+      if current_user.participating_in?(@challenge)
         redirect_to @challenge, alert: "You have already joined this challenge."
       else
         Participation.create(user: current_user, challenge: @challenge)
@@ -33,6 +30,17 @@ class ChallengesController < ApplicationController
   
     else
       redirect_to challenges_path, alert: "This challenge is no longer available to join."
+    end
+  end
+
+  def leave
+    participation = Participation.find_by(user: current_user, challenge: @challenge)
+
+    if participation
+      participation.destroy
+      redirect_to challenges_path, notice: "You have left the challenge."
+    else
+      redirect_to @challenge, alert: "You are not participating in this challenge."
     end
   end
 

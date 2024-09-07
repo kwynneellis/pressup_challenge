@@ -5,13 +5,13 @@
 <% else %>
   <% @public_challenges.each do |challenge| %>
     <div class="card">
-      <div class="card-header">
-        <%= link_to challenge.name.titleize, challenge_path(challenge), class: "text-decoration-none text-reset" %>
+      <div class="card-header d-flex justify-content-between">
+        <%= link_to challenge.name.titleize, challenge_path(challenge), class: "btn px-0 text-decoration-none text-reset" %>
+        <%= button_to 'Join', join_challenge_path(challenge), method: :post, class: "btn btn-primary" %>
       </div>
       <div class="card-body">
         <p>Started on: <%= challenge.start_date.strftime("%d %b %Y") %></p>
-        <p>Created by: <%= challenge.creator.username %></p>
-        <%= button_to 'Join Challenge', join_challenge_path(@challenge), method: :post, class: "btn btn-primary" %>
+        <p>Creator: <%= challenge.creator.username %></p>
       </div>
     </div>
   <% end %>

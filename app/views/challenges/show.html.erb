@@ -1,20 +1,27 @@
-<h1><%= @challenge.name %></h1>
-  <p>Start Date: <%= @challenge.start_date.strftime("%d %b %Y") %></p>
+<div class="d-flex justify-content-between mb-3">
+  <div>
+    <h1 class="mb-0"><%= @challenge.name %></h1>
+    <small>Start Date: <%= @challenge.start_date.strftime("%d %b %Y") %></small>
+  </div>
+  <div>
+  <% if !current_user.participating_in?(@challenge) %>
+    <%= button_to 'Join', join_challenge_path(@challenge), method: :post, class: "btn btn-primary" %>
+  </div>
+</div>  
+  <% else %>
+    <%= button_to '🗑️', leave_challenge_path(@challenge), method: :delete, class: "btn", data: { confirm: 'Are you sure you want to leave this challenge?' } %>
+  </div>
+</div>
 
-<% if !@challenge.participations.exists?(user: current_user) %>
-  <%= button_to 'Join', join_challenge_path(@challenge), method: :post, class: "btn btn-primary" %>
+<turbo-frame id="challenge-<%= @challenge.id %>-<%= @date %>">
+  <%= render 'challenges/on_date', 
+            rep_target: @rep_target, 
+            reps_done: @reps_done, 
+            reps_remaining: @reps_remaining,
+            reps_done_as_percentage: @reps_done_as_percentage %>
+</turbo-frame>
 
-<% else %>
+<%= render 'challenges/day_navbar', challenge: @challenge, date: @date %>
 
-  <%= render 'challenges/day_navbar', challenge: @challenge, date: @date %>
-
-  <turbo-frame id="challenge-<%= @challenge.id %>-<%= @date %>">
-    <%= render 'challenges/on_date', 
-              rep_target: @rep_target, 
-              reps_done: @reps_done, 
-              reps_remaining: @reps_remaining,
-              reps_done_as_percentage: @reps_done_as_percentage %>
-  </turbo-frame>
-
-  <%= render 'challenges/buttons', locals: { reps_remaining_today: @reps_remaining_today } %>
+<%= render 'challenges/buttons', locals: { reps_remaining_today: @reps_remaining_today } %>
 <% end %>
