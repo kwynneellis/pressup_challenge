@@ -1,8 +1,13 @@
 <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light mb-2">
   <div class="container-fluid">
-    <%= link_to "🏠", root_path, class: "navbar-brand" %>
-    <%= link_to "🎯 #{@todays_target}", challenge_path(@primary_challenge), class: "navbar-brand" %>
-    <%= link_to "💪 #{@challenge_count}", challenges_path, class: "navbar-brand" %>
+    <% if user_signed_in? %>
+      <%= link_to "💪", challenges_path, class: "navbar-brand" %>
+      <% if @primary_challenge.present? %>
+        <%= link_to "🎯 #{@todays_target}", challenge_path(@primary_challenge), class: "navbar-brand" %>
+      <% end %>
+    <% else %>
+    <%= link_to "💪", user_path, class: "navbar-brand" %>
+    <% end %>
     <%= link_to "👤", user_path, class: "navbar-brand" %>
   </div>
 </nav>

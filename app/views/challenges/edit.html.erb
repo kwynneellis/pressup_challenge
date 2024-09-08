@@ -1,22 +1,2 @@
+<h2>Edit Challenge</h2>
 <%= render "challenges/form" %>
-
-<%= link_to "Get Logs Up-to-Date", "#", data: { bs_toggle: "modal", bs_target: "#confirmUpdateLogsModal" }, class: "btn btn-primary mt-3" %>
-
-<!-- Confirmation Modal -->
-<div class="modal fade" id="confirmUpdateLogsModal" tabindex="-1" aria-labelledby="confirmUpdateLogsModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmUpdateLogsModalLabel">Confirm Update</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to update all logs to be up-to-date? This action cannot be undone.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <%= button_to 'Confirm', update_all_logs_challenge_path(@challenge), method: :post, class: 'btn btn-danger' %>
-      </div>
-    </div>
-  </div>
-</div>

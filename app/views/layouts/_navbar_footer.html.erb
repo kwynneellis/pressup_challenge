@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-sm fixed-bottom bg-body-tertiary">
   <div class="container-fluid">
     <% if user_signed_in? %>
-      <%= link_to "📋", all_logs_path, class: "navbar-brand" %>
+      <%= link_to "🏠", authenticated_root_path, class: "navbar-brand" %>
+      <%= link_to "➕", new_challenge_path, class: "navbar-brand" %>
       <%= link_to "🛍️", public_challenges_path, class: "navbar-brand" %>
       <%= link_to "⚙️ ", edit_user_registration_path, class: "navbar-brand" %>
-    <% else %>
-      <%= link_to "👤", user_path, class: "navbar-brand" %>
+      <% else %> 
+      <%= link_to "🏠", user_path, class: "navbar-brand" %>
     <% end %>
   </div>
 </nav>

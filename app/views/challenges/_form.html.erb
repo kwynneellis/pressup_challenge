@@ -31,7 +31,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit 'Create Challenge' %>
+    <%= form.submit(@challenge.new_record? ? 'Create' : 'Update') %>
   </div>
 
 <% end %>

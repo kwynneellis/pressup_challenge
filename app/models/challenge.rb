@@ -29,21 +29,21 @@ class Challenge < ApplicationRecord
     Date.new(self.start_date.year, 12, 31)
   end
 
-  def cumulative_reps_done
-    logs.sum(:reps_in_set)
+  def cumulative_reps_done(user)
+    logs.where(user: user).sum(:reps_in_set)
   end
 
-  def reps_done_on(date)
-    logs.where(date_of_set: date).sum(:reps_in_set)
+  def reps_done_on(date, user)
+    logs.where(date_of_set: date, user: user).sum(:reps_in_set)
   end
 
-  def reps_done_today
-    reps_done_on(Date.today)
+  def reps_done_today(user)
+    reps_done_on(Date.today, user)
   end
 
-  def reps_remaining_on(date)
+  def reps_remaining_on(date, user)
     target = rep_target_for(date)
-    [target - reps_done_on(date), 0].max
+    [target - reps_done_on(date, user), 0].max
   end
 
   def rep_target_today
@@ -51,9 +51,7 @@ class Challenge < ApplicationRecord
   end
 
   def rep_target_for(date)
-    # Calculate the number of days since the challenge started
     days_since_start = (date - self.start_date).to_i + 1
-    # The number of reps required for that date
     days_since_start
   end
 

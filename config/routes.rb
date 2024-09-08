@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :challenges do
     member do
       get 'day/:date', action: :show_by_date, as: :day
-      post 'update_logs', to: 'challenges#update_all_logs', as: 'update_all_logs'
       post 'join', to: 'challenges#join', as: 'join'
       delete 'leave', to: 'challenges#leave', as: 'leave'
     end
@@ -26,5 +25,13 @@ Rails.application.routes.draw do
 
   get 'logs/all', to: 'logs#index_all', as: 'all_logs'
 
-  root to: "logs#index_all"
+  # root to: "logs#index_all"
+
+  authenticated :user do
+    root 'logs#index_all', as: :authenticated_root
+  end
+  
+  unauthenticated do
+    root 'session#new', as: :unauthenticated_root
+  end
 end

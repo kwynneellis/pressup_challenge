@@ -12,7 +12,7 @@ class ChallengesController < ApplicationController
   
     # Exclude challenges that the current user has already joined
     @public_challenges = all_public_challenges.reject do |challenge|
-      current_user.participating_in?(challenge.id)
+      current_user.participating_in?(challenge)
     end
   end
 
@@ -108,7 +108,7 @@ class ChallengesController < ApplicationController
 
   def load_log_data_for(date)
     @rep_target = @challenge.rep_target_for(date)
-    @reps_done = @challenge.reps_done_on(date)
+    @reps_done = @challenge.reps_done_on(date, current_user)
     @reps_remaining = [@rep_target - @reps_done, 0].max
     @reps_done_as_percentage = (@reps_done.to_f / @rep_target * 100).round(2)
   end
