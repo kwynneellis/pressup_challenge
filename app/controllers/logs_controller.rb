@@ -33,7 +33,7 @@ class LogsController < ApplicationController
   def index_all
     logs = Log.joins(challenge: :participations)
             .joins(:user)
-            .where("users.visibility = ?", true)
+            .where(users: { visibility: true })
             .distinct # Ensure unique logs
             .includes(:challenge, :user)
             .order(date_of_set: :desc, created_at: :desc)
