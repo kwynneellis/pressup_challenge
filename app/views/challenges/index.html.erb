@@ -17,6 +17,19 @@
   <% end %>
 <% end %>
 
+<% if @created_challenges.any? %>  
+  <h4>Created by you</h4>
+  <% @created_challenges.each do |created_challenge| %>
+    <%= link_to challenge_path(created_challenge), class: "card-link" do %>
+      <div class="card text-bg-light mb-3">
+        <div class="card-header"><%= created_challenge.name.titleize %></div>
+        <div class="card-body">
+          <p class="card-text"><small class="text-body-secondary">Started on <%= created_challenge.start_date.strftime("%d %b %Y") %></small></p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
 <% if @challenges.archived.any? %>  
   <h4>Archived challenges</h4>
   <% @challenges.archived.each do |challenge| %>
@@ -24,8 +37,6 @@
       <div class="card text-bg-light mb-3">
         <div class="card-header"><%= challenge.name.titleize %></div>
         <div class="card-body">
-          <h5 class="card-title">Today: <%= number_with_delimiter(challenge.reps_done_today(current_user)) %> / <%= number_with_delimiter(challenge.rep_target_today) %></h5>
-          <p class="card-text">Cumulative: <%= number_with_delimiter(challenge.cumulative_reps_done(current_user)) %> / <%= number_with_delimiter(challenge.cumulative_target_to_date) %></p>
           <p class="card-text"><small class="text-body-secondary">Started on <%= challenge.start_date.strftime("%d %b %Y") %></small></p>
         </div>
       </div>

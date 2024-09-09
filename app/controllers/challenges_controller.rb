@@ -4,6 +4,7 @@ class ChallengesController < ApplicationController
 
   def index
     @challenges = current_user.joined_challenges
+    @created_challenges = current_user.created_challenges
   end
 
   def public_index
@@ -75,6 +76,7 @@ class ChallengesController < ApplicationController
 
   def create
     @challenge = current_user.created_challenges.new(challenge_params)
+    Participation.create(user: current_user, challenge: @challenge)
 
     if @challenge.save
       redirect_to @challenge, notice: "Challenge created successfully."

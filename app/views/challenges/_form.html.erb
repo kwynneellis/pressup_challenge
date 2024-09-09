@@ -10,22 +10,22 @@
       </ul>
     </div>
   <% end %>
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="field mb-2">
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
 
-  <div class="field">
-    <%= form.label :start_date %>
-    <%= form.date_field :start_date %>
+  <div class="field mb-2">
+    <%= form.label :start_date, class: 'form-label' %>
+    <%= form.date_field :start_date, class: 'form-control' %>
   </div>
 
-  <div class="field">
-    <%= form.label :challenge_type %>
-    <%= form.select :challenge_type, Challenge.challenge_types.keys.map { |w| [w.titleize, w] } %>
+  <div class="field mb-2 form-group">
+    <%= form.label :challenge_type, class: 'form-label' %>
+    <%= form.select :challenge_type, [['','']] + Challenge.challenge_types.keys.map { |w| [w.titleize, w] }, {}, class: 'form-select' %>
   </div>
 
-  <div class="form-check form-switch">
+  <div class="form-check form-switch my-3">
     <%= form.check_box :public, class: 'form-check-input' %>
     <%= form.label :public, class: 'form-check-label' %>
   </div>
