@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light mb-2">
-  <div class="container-fluid">
+  <div class="container container-fluid">
     <% if user_signed_in? %>
       <%= link_to "🏠", authenticated_root_path, class: "navbar-brand" %>
       <% if @primary_challenge.present? %>

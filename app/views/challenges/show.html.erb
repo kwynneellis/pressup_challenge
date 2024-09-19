@@ -13,6 +13,8 @@
   </div>
 </div>
 
+<%= render 'challenges/day_navbar', challenge: @challenge, date: @date %>
+
 <turbo-frame id="challenge-<%= @challenge.id %>-<%= @date %>">
   <%= render 'challenges/on_date', 
             rep_target: @rep_target, 
@@ -20,8 +22,6 @@
             reps_remaining: @reps_remaining,
             reps_done_as_percentage: @reps_done_as_percentage %>
 </turbo-frame>
-
-<%= render 'challenges/day_navbar', challenge: @challenge, date: @date %>
 
 <%= render 'challenges/buttons', locals: { reps_remaining_today: @reps_remaining_today } %>
 <% end %>

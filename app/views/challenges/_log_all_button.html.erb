@@ -3,8 +3,8 @@
                 challenge_logs_path(@challenge, log: { date_of_set: date_of_set, reps_in_set: reps_remaining }), 
                 method: :post, 
                 remote: true, 
-                class: "btn btn-primary mt-4",
+                class: "btn btn-primary mt-4 w-100 log-reps-btn",
                 data: { turbo: "false" } %>
 <% else %>
-  <button class="btn btn-primary mt-4" disabled>All done</button>
+  <button class="btn btn-primary mt-4 w-100 log-reps-btn" disabled>All done</button>
 <% end %>

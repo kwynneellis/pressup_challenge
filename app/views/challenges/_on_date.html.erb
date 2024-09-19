@@ -1,13 +1,13 @@
-<div id="challenge-info">
+<div class="bubble-container" id="challenge-info">
+
   <div class="row text-center">
-    <div class="col">Target</div>
-    <div class="col">Done</div>
-    <div class="col">Remaining</div>
-  </div>
-  <div class="row text-center">
-    <div class="col"><%= rep_target %></div>
-    <div class="col"><%= reps_done %></div>
-    <div class="col"><%= reps_remaining %></div>
+    <% if reps_remaining > 0 %>
+    <div class="col"><h4><%= reps_remaining %> left</h4></div>
+    <div class="col"><%= reps_done %>/<%= rep_target %></div>
+    <% else %>
+    <div class="col"><h4>All <%= reps_done %> done 👏</h4></div>
+    <% end %>
+
   </div>
 
   <%= render 'challenges/progress_bar', reps_done_as_percentage: reps_done_as_percentage %>
