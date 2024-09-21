@@ -105,7 +105,7 @@ class ChallengesController < ApplicationController
   end
 
   def challenge_params
-    params.require(:challenge).permit(:name, :start_date, :challenge_type, :public)
+    params.require(:challenge).permit(:name, :start_date, :end_date, :challenge_type, :public)
   end
 
   def load_log_data_for(date)

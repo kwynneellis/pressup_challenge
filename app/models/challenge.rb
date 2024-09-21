@@ -18,6 +18,7 @@ class Challenge < ApplicationRecord
   scope :public_active, -> { where(public: true, active: true, archive: false) }
   scope :public_visible, -> { where(public: true, archive: false) }
 
+  before_save :set_end_date
   before_save :set_active_and_archive
 
   # Validations
@@ -25,9 +26,6 @@ class Challenge < ApplicationRecord
   validates :start_date, presence: true
   validates :challenge_type, presence: true
 
-  def end_date
-    Date.new(self.start_date.year, 12, 31)
-  end
 
   def cumulative_reps_done(user)
     logs.where(user: user).sum(:reps_in_set)
@@ -64,10 +62,14 @@ class Challenge < ApplicationRecord
 
   private
 
+  def set_end_date
+    self.end_date || Date.new(self.start_date.year, 12, 31)
+  end
+
   def set_active_and_archive
     if start_date.present?
-      self.active = start_date <= Date.today && (self.end_date.nil? || self.end_date >= Date.today)
+      self.active = start_date <= Date.today && end_date >= Date.today
     end
-    self.archive = false if archive.nil? # Ensure archive is either false or set explicitly
+    self.archive = false if archive.nil?
   end
 end

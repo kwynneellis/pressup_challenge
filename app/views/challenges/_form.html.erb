@@ -20,6 +20,11 @@
     <%= form.date_field :start_date, class: 'form-control' %>
   </div>
 
+  <div class="field mb-2">
+    <%= form.label :end_date, class: 'form-label' %>
+    <%= form.date_field :end_date, class: 'form-control' %>
+  </div>
+
   <div class="field mb-2 form-group">
     <%= form.label :challenge_type, class: 'form-label' %>
     <%= form.select :challenge_type, [['','']] + Challenge.challenge_types.keys.map { |w| [w.titleize, w] }, {}, class: 'form-select' %>
