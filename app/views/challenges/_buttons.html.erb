@@ -1,36 +1,19 @@
-<div class="mt-3" id="log-reps-container">
-  <div>
-    <div class="row text-center">
-      <div class="col-8">
-        <div class="h4 mt-4 text-start">Log your reps</div>
-      </div>
-      <div class="col-4">
+<div class="bubble-container p-1">
+  <div class="scroll-navbar p-1 mb-0" data-controller="navbar-scroll" data-navbar-scroll-target="container">
+      <div class="scroll-item p-0 m-1">
         <turbo-frame id="log-all-reps">
           <%= render 'challenges/log_all_button', date_of_set: @date, reps_remaining: @reps_remaining %>
         </turbo-frame>
       </div>
-    </div>
-    <div class="row text-center">
-      <div class="col-4">
-        <%= button_to "+1", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 1 }), method: :post, remote: true, class: "btn btn-primary mt-4 w-100 log-reps-btn", data: { turbo: "false" } %>
+    <% @log_increments.each do |increment| %>
+      <div class="scroll-item p-0 m-1">
+        <%= button_to "+ #{increment}", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: increment }), 
+            method: :post, remote: true, class: "btn btn-success bg-gradient py-3 log-reps-btn", 
+            data: { turbo: "false" } %>
       </div>
-      <div class="col-4">
-        <%= button_to "+5", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 5 }), method: :post, remote: true, class: "btn btn-primary mt-4 w-100 log-reps-btn", data: { turbo: "false" } %>
-      </div>
-      <div class="col-4">
-        <%= button_to "+10", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 10 }), method: :post, remote: true, class: "btn btn-primary mt-4 w-100 log-reps-btn", data: { turbo: "false" } %>
-      </div>
-    </div>
-    <div class="row text-center">
-      <div class="col-4">
-        <%= button_to "+25", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 25 }), method: :post, remote: true, class: "btn btn-primary mt-4 w-100 log-reps-btn", data: { turbo: "false" } %>
-      </div>
-      <div class="col-4">
-        <%= button_to "+50", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 50 }), method: :post, remote: true, class: "btn btn-primary mt-4 w-100 log-reps-btn", data: { turbo: "false" } %>
-      </div>
-      <div class="col-4">
-        <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { turbo: "false", confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary mt-4 w-100 log-reps-btn reset-logs" %>
-      </div>
+    <% end %>
+      <div class="scroll-item p-0 m-1">
+      <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { turbo: "false", confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary py-3 log-reps-btn reset-logs" %>
     </div>
   </div>
 </div>

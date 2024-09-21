@@ -2,8 +2,8 @@
 
   <div class="row text-center">
     <% if reps_remaining > 0 %>
-    <div class="col"><h4><%= reps_remaining %> left</h4></div>
     <div class="col"><%= reps_done %>/<%= rep_target %></div>
+    <div class="col"><h4><%= reps_remaining %> left</h4></div>
     <% else %>
     <div class="col"><h4>All <%= reps_done %> done 👏</h4></div>
     <% end %>

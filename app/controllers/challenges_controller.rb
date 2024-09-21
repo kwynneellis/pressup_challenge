@@ -109,6 +109,7 @@ class ChallengesController < ApplicationController
   end
 
   def load_log_data_for(date)
+    @log_increments = [1,5,10,25,50,100]
     @rep_target = @challenge.rep_target_for(date)
     @reps_done = @challenge.reps_done_on(date, current_user)
     @reps_remaining = [@rep_target - @reps_done, 0].max
