@@ -1,0 +1,11 @@
+<div class="bubble-container p-1">
+  <div class="d-flex justify-content-end">
+    <% if reps_remaining > 0 %>
+    <%= button_to "Complete", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 1 }), 
+      method: :post, remote: true, class: "btn btn-success bg-gradient py-3", 
+      data: { turbo: "false" } %>
+    <% else %>
+    <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { turbo: "false", confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary py-3 log-reps-btn reset-logs" %>
+    <% end %>
+  </div>
+</div>

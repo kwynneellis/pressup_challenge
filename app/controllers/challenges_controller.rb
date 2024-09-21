@@ -110,15 +110,26 @@ class ChallengesController < ApplicationController
 
   def load_log_data_for(date)
     @log_increments = [1,5,10,25,50,100]
-    @rep_target = @challenge.rep_target_for(date)
+    @rep_target = target_by_challenge_type(date)
     @reps_done = @challenge.reps_done_on(date, current_user)
     @reps_remaining = [@rep_target - @reps_done, 0].max
     @reps_done_as_percentage = (@reps_done.to_f / @rep_target * 100).round(2)
   end
 
+  def target_by_challenge_type(date)
+    case @challenge.challenge_type
+    when "abstinence"
+      1
+    when "fixed"
+      1 # TODO: collect baseline from user
+    when "incremental"
+      @challenge.rep_target_for(date)
+    end
+  end
+
   def render_turbo_stream_response(date)
     render turbo_stream: [
-      turbo_stream.replace("challenge-#{challenge.id}-#{date}", partial: 'challenges/on_date', locals: {
+      turbo_stream.replace("challenge-#{challenge.id}-#{date}", partial: 'challenges/daily_progress_bar', locals: {
         rep_target: @rep_target,
         reps_done: @reps_done,
         reps_remaining: @reps_remaining,

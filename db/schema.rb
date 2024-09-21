@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_21_154357) do
 
   create_table "challenges", force: :cascade do |t|
     t.string "name"
-    t.integer "creator_id", null: false
+    t.bigint "creator_id", null: false
     t.date "start_date"
     t.string "challenge_type"
     t.datetime "created_at", null: false
@@ -33,16 +33,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_21_154357) do
     t.integer "reps_in_set"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "challenge_id"
+    t.bigint "challenge_id"
     t.boolean "completed_the_day", default: false, null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["challenge_id"], name: "index_logs_on_challenge_id"
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
   create_table "participations", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "challenge_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "challenge_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["challenge_id"], name: "index_participations_on_challenge_id"

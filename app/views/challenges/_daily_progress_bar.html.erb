@@ -1,0 +1,19 @@
+<div class="bubble-container" id="challenge-info">
+
+  <div class="row text-center">
+    <% if reps_remaining > 0 %>
+    <div class="col"><%= reps_done %>/<%= rep_target %></div>
+    <div class="col"><h4><%= reps_remaining %> left</h4></div>
+    <% else %>
+    <div class="col"><h4>All <%= reps_done %> done 👏</h4></div>
+    <% end %>
+  </div>
+
+  <div class="progress mt-3" role="progressbar" aria-label="Success striped example" aria-valuenow="<%= reps_done_as_percentage %>" aria-valuemin="0" aria-valuemax="100" style="height: 3em">
+    <div class="progress-bar <%= 'progress-bar-striped' if reps_done_as_percentage < 100 %> bg-success" style="width: <%= reps_done_as_percentage %>%"><%= reps_done_as_percentage.round %>%</div>
+    <% if reps_done_as_percentage == 0 %>
+      <div class="progress-bar bg-secondary-subtle text-dark" style="width: 100%">0%</div>
+    <% end %>
+  </div>
+
+</div>
