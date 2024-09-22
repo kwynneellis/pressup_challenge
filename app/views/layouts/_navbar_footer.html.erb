@@ -3,7 +3,7 @@
     <% if user_signed_in? %>
       <%= link_to "💪", challenges_path, class: "navbar-brand" %>
       <%= link_to "➕", new_challenge_path, class: "navbar-brand" %>
-      <%= link_to "🛍️", public_challenges_path, class: "navbar-brand" %>
+      <%= link_to "🔎", public_challenges_path, class: "navbar-brand" %>
       <%= link_to "👤", user_path, class: "navbar-brand" %>
       <% else %> 
       <%= link_to "💪", user_path, class: "navbar-brand" %>

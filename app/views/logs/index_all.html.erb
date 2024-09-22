@@ -1,20 +1,18 @@
 <% @logs_by_date_user_and_challenge.each do |(date, user, challenge), logs| %>
+  <% total_reps = logs.sum(&:reps_in_set) %>
+  <% target_reps = challenge.rep_target_for(date) %>
   <div class="card mb-3">
     <div class="card-header">
       <strong><%= user.username %>'s</strong> <small><%= link_to challenge.name.titleize, challenge_path(challenge), class: "text-reset" %></small>
       <br><small class="text-body-secondary"><%= date.strftime("%d %b %Y") %></small>
     </div>
     <div class="card-body">
-      <div class="d-flex flex-wrap mb-3">
+      <small><strong><%= total_reps >= target_reps ? '🎉 Completed:' : 'In progress:'%></strong> <%= total_reps %> / <%= target_reps %> <%= challenge.rep_unit || 'reps' %></small>
+      <div class="d-flex flex-wrap my-2">
         <% logs.each do |log| %>
           <div class="btn border-success bg-success-subtle m-1"><%= log.reps_in_set %></div>
         <% end %>
       </div>
-      
-      <% total_reps = logs.sum(&:reps_in_set) %>
-      <% target_reps = challenge.rep_target_for(date) %>
-
-      <p><%= '🎉 ' if total_reps >= target_reps %><strong>Progress:</strong> <%= total_reps %> / <%= target_reps %> reps</p>
     </div>
   </div>
 <% end %>

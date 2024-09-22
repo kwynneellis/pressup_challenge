@@ -1,1 +1,10 @@
-This is an fixed challenge type
+
+<turbo-frame id="challenge-<%= @challenge.id %>-<%= @date %>">
+  <%= render 'challenges/daily_progress_bar', 
+            rep_target: @rep_target, 
+            reps_done: @reps_done, 
+            reps_remaining: @reps_remaining,
+            reps_done_as_percentage: @reps_done_as_percentage %>
+</turbo-frame>
+
+<%= render 'challenges/log_reps' %>
