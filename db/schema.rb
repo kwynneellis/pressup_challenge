@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_21_154357) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_22_141329) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_21_154357) do
     t.boolean "active", default: false
     t.boolean "archive"
     t.date "end_date"
+    t.integer "starting_volume"
+    t.integer "fixed_rep_target"
+    t.string "rep_unit"
     t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
