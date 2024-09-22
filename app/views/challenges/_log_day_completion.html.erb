@@ -5,7 +5,7 @@
       method: :post, remote: true, class: "btn btn-success bg-gradient py-3", 
       data: { turbo: "false" } %>
     <% else %>
-    <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { turbo: "false", confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary py-3 log-reps-btn reset-logs" %>
+    <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { confirm: "Are you sure you want to reset today's logs?", turbo_confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-secondary py-3 log-reps-btn reset-logs" %>
     <% end %>
   </div>
 </div>

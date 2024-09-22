@@ -105,26 +105,15 @@ class ChallengesController < ApplicationController
   end
 
   def challenge_params
-    params.require(:challenge).permit(:name, :start_date, :end_date, :challenge_type, :public)
+    params.require(:challenge).permit(:name, :start_date, :end_date, :challenge_type, :starting_volume, :fixed_rep_target, :rep_unit, :public)
   end
 
   def load_log_data_for(date)
     @log_increments = [1,5,10,25,50,100]
-    @rep_target = target_by_challenge_type(date)
+    @rep_target = @challenge.rep_target_for(date)
     @reps_done = @challenge.reps_done_on(date, current_user)
     @reps_remaining = [@rep_target - @reps_done, 0].max
     @reps_done_as_percentage = (@reps_done.to_f / @rep_target * 100).round(2)
-  end
-
-  def target_by_challenge_type(date)
-    case @challenge.challenge_type
-    when "abstinence"
-      1
-    when "fixed"
-      1 # TODO: collect baseline from user
-    when "incremental"
-      @challenge.rep_target_for(date)
-    end
   end
 
   def render_turbo_stream_response(date)

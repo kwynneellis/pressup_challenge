@@ -49,18 +49,64 @@ class Challenge < ApplicationRecord
   end
 
   def rep_target_for(date)
-    days_since_start = (date - self.start_date).to_i + 1
-    days_since_start
+    case self.challenge_type
+    when "abstinence"
+      daily_abstinence_target
+    when "fixed"
+      daily_fixed_target
+    when "incremental"
+      daily_incremental_target(date)
+    end
   end
 
-  def cumulative_target_to_date
-    return 0 if start_date.nil?
-
-    days_since_start = (Date.today - self.start_date).to_i + 1
-    (days_since_start * (days_since_start + 1)) / 2
+  def cumulative_target_to_date 
+    case self.challenge_type
+    when "abstinence"
+      today_days_since_start
+    when "fixed"
+      today_days_since_start * daily_fixed_target
+    when "incremental"
+      cumulative_incremental_target
+    end
   end
 
   private
+
+  def days_since_start(date)
+    return 0 if start_date.nil?
+    (date - self.start_date).to_i + 1
+  end
+
+  def today_days_since_start
+    days_since_start(Date.today)
+  end
+
+  def daily_abstinence_target
+    1 # effectively true or false. 1 being they completed the day
+  end
+
+  def daily_fixed_target
+    self.fixed_rep_target || 1
+  end
+
+  def daily_incremental_target(date)
+    days_since_start_date = days_since_start(date)
+    if self.starting_volume.present? && self.starting_volume > 1
+      days_since_start_date += self.starting_volume - 1
+    end
+
+    days_since_start_date
+  end
+
+  def cumulative_incremental_target
+    cumulative_target = (today_days_since_start * (today_days_since_start + 1)) / 2
+    if self.starting_volume.present? && self.starting_volume > 1
+      cumulative_target += (today_days_since_start * (self.starting_volume - 1))
+    end
+
+    cumulative_target
+  end
+
 
   def set_end_date
     self.end_date || Date.new(self.start_date.year, 12, 31)

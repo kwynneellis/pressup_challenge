@@ -1,2 +1,6 @@
-<h2>Edit Challenge</h2>
+<div class="d-flex justify-content-between mb-3">
+<%= link_to "⬅️ back", :back, class: "text-decoration-none text-reset" %>
+<%= button_to "Delete", challenge_path(@challenge), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-sm btn-outline-danger"%>
+</div>
+<h2 class="my-2">Edit Challenge</h2>
 <%= render "challenges/form" %>

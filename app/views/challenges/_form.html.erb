@@ -30,13 +30,28 @@
     <%= form.select :challenge_type, [['','']] + Challenge.challenge_types.keys.map { |w| [w.titleize, w] }, {}, class: 'form-select' %>
   </div>
 
+  <div class="field mb-2">
+    <%= form.label :starting_volume, class: 'form-label' %>
+    <%= form.number_field :starting_volume, class: 'form-control', step: 1, min: 1, value: @challenge.starting_volume || 1 %>
+  </div>
+
+  <div class="field mb-2">
+    <%= form.label :fixed_rep_target, "Fixed target (if applicable)", class: 'form-label' %>
+    <%= form.number_field :fixed_rep_target, class: 'form-control', step: 1 %>
+  </div>
+
+  <div class="field mb-2">
+    <%= form.label :rep_unit, "Units (optional)", class: 'form-label' %>
+    <%= form.text_field :rep_unit, class: 'form-control', placeholder: "mins/reps/kgs..." %>
+  </div>
+
   <div class="form-check form-switch my-3">
     <%= form.check_box :public, class: 'form-check-input' %>
-    <%= form.label :public, "Other users can join", class: 'form-check-label' %>
+    <%= form.label :public, "Others can join", class: 'form-check-label' %>
   </div>
 
   <div class="actions">
-    <%= form.submit(@challenge.new_record? ? 'Create' : 'Update') %>
+    <%= form.submit(@challenge.new_record? ? 'Create' : 'Update', class: "btn btn-primary") %>
   </div>
 
 <% end %>

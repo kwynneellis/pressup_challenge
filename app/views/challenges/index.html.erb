@@ -1,7 +1,7 @@
 <h2>Your challenges</h2>
 <div class="d-flex justify-content-between mb-2">
 <%= link_to "Create", new_challenge_path, class: "btn btn-primary w-50 mx-1" %>
-<%= link_to "Join", public_challenges_path, class: "btn btn-secondary w-50 mx-1" %>
+<%= link_to "Browse", public_challenges_path, class: "btn btn-outline-secondary w-50 mx-1" %>
 </div>
 
 <% @challenges.active.each do |challenge| %>
@@ -9,8 +9,8 @@
     <div class="card text-bg-light mb-3">
       <div class="card-header"><%= challenge.name.titleize %></div>
       <div class="card-body">
-        <h5 class="card-title">Today: <%= number_with_delimiter(challenge.reps_done_today(current_user)) %> / <%= number_with_delimiter(challenge.rep_target_today) %></h5>
-        <p class="card-text">Cumulative: <%= number_with_delimiter(challenge.cumulative_reps_done(current_user)) %> / <%= number_with_delimiter(challenge.cumulative_target_to_date) %></p>
+        <h5 class="card-title">Today: <%= number_with_delimiter(challenge.reps_done_today(current_user)) %> / <%= number_with_delimiter(challenge.rep_target_today) %> <%= challenge.rep_unit || '' %></h5>
+        <p class="card-text">Cumulative: <%= number_with_delimiter(challenge.cumulative_reps_done(current_user)) %> / <%= number_with_delimiter(challenge.cumulative_target_to_date) %> <%= challenge.rep_unit || '' %></p>
         <p class="card-text"><small class="text-body-secondary">Started on <%= challenge.start_date.strftime("%d %b %Y") %></small></p>
       </div>
     </div>
