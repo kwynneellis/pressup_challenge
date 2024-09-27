@@ -3,8 +3,10 @@ class LogsController < ApplicationController
   before_action :set_challenge, only: [:create, :index, :reset_logs]
 
   def create
-    date = params[:log][:date_of_set] || Date.today
-    @log = @challenge.logs.new(log_params)
+    date = params[:date_of_set] || Date.today
+    reps = params[:reps_in_set]
+    @log = @challenge.logs.new(date_of_set: date, reps_in_set: reps)
+
     @log.user = current_user
 
     if @log.save
@@ -34,6 +36,7 @@ class LogsController < ApplicationController
     logs = Log.joins(challenge: :participations)
             .joins(:user)
             .where(users: { visibility: true })
+            .where.not(reps_in_set: nil)
             .distinct # Ensure unique logs
             .includes(:challenge, :user)
             .order(date_of_set: :desc, created_at: :desc)
@@ -52,6 +55,6 @@ class LogsController < ApplicationController
   end
 
   def log_params
-    params.require(:log).permit(:date_of_set, :reps_in_set, :completed_the_day)
+    params.require(:log).permit(:date_of_set, :reps_in_set)
   end
 end

@@ -1,7 +1,7 @@
 <div class="bubble-container p-1">
   <div class="d-flex justify-content-end">
     <% if reps_remaining > 0 %>
-    <%= button_to "Complete", challenge_logs_path(@challenge, log: { date_of_set: @date, reps_in_set: 1 }), 
+    <%= button_to "Complete", challenge_logs_path(@challenge, date_of_set: @date, reps_in_set: 1), 
       method: :post, remote: true, class: "btn btn-success bg-gradient py-3", 
       data: { turbo: "false" } %>
     <% else %>

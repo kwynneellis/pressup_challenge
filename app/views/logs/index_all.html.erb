@@ -1,5 +1,5 @@
 <% @logs_by_date_user_and_challenge.each do |(date, user, challenge), logs| %>
-  <% total_reps = logs.sum(&:reps_in_set) %>
+  <% total_reps = logs.sum { |log| log.reps_in_set || 0 } %>
   <% target_reps = challenge.rep_target_for(date) %>
   <div class="card mb-3">
     <div class="card-header">
