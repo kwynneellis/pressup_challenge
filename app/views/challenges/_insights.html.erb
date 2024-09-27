@@ -1,0 +1,7 @@
+<div class="bubble-container">
+
+  <div>You are <%= challenge.today_days_since_start %> days in</div>
+  <div>So far you've done <%= number_with_delimiter(@challenge.cumulative_reps_done(current_user)) %> / <%= number_with_delimiter(@challenge.cumulative_target_to_date) %> <%= @challenge.rep_unit || '' %></div>
+  <div>Today: <%= number_with_delimiter(@challenge.reps_done_today(current_user)) %> / <%= number_with_delimiter(@challenge.rep_target_today) %> <%= @challenge.rep_unit || '' %></div>
+
+</div>

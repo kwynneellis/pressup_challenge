@@ -19,13 +19,12 @@ Rails.application.routes.draw do
     resources :logs, only: [:create, :index, :destroy] do
       collection do
         delete 'reset_logs', to: 'logs#reset_logs', as: 'reset'
+        post 'catch_up', to: 'logs#catch_up', as: 'catch_up'
       end
     end
   end
 
   get 'logs/all', to: 'logs#index_all', as: 'all_logs'
-
-  # root to: "logs#index_all"
 
   authenticated :user do
     root 'logs#index_all', as: :authenticated_root

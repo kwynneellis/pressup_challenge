@@ -1,0 +1,24 @@
+<h4 class="mb-0"><%= @challenge.name %></h4>
+<small><%= @challenge.start_date.strftime("%d %b %Y") %> - <%= @challenge.end_date.strftime("%d %b %Y") %></small>
+<nav class="navbar navbar-expand-sm">
+  <div class="container container-fluid border-bottom p-0">
+    <%= link_to "🎯 #{@todays_target}", challenge_path(@primary_challenge), class: "navbar-brand btn m-0" %>
+    <%= link_to "🗓️", challenges_path, class: "navbar-brand btn m-0" %>
+    <%= button_to "⏩", catch_up_challenge_logs_path(@challenge), method: :post, class: "navbar-brand btn m-0", data: { confirm: "Are you sure you want to catch up on all logs?", turbo_confirm: "Are you sure you want to catch up on all logs?" } %>
+    <div class="navbar-brand text-end m-0">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          ⚙️
+        </button>
+        <ul class="dropdown-menu">
+          <% if !current_user.participating_in?(@challenge) %>
+          <li><%= button_to "Join", join_challenge_path(@challenge), method: :post, class: "dropdown-item" %></li>
+          <% else %>
+          <li><%= link_to "Edit", edit_challenge_path(@challenge), class: "dropdown-item" %></li>
+          <li><%= button_to 'Leave', leave_challenge_path(@challenge), method: :delete, data: { confirm: "Are you sure you want to leave this challenge?", turbo_confirm: "Are you sure you want to leave this challenge?" }, class: "dropdown-item" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

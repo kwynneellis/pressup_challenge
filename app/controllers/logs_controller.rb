@@ -1,6 +1,6 @@
 class LogsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_challenge, only: [:create, :index, :reset_logs]
+  before_action :set_challenge, only: [:create, :index, :reset_logs, :catch_up]
 
   def create
     date = params[:date_of_set] || Date.today
@@ -43,6 +43,27 @@ class LogsController < ApplicationController
 
     # Group logs by date, user and challenge
     @logs_by_date_user_and_challenge = logs.group_by { |log| [log.date_of_set, log.user, log.challenge] }
+  end
+
+  def catch_up
+    user = current_user
+
+    @challenge.start_date.upto(Date.today) do |date|
+      target_reps = @challenge.rep_target_for(date)
+      existing_reps = Log.where(challenge: @challenge, user: user, date_of_set: date).sum(:reps_in_set)
+
+      if existing_reps < target_reps
+        # Create a log with the remaining target reps for that day
+        Log.create(
+          challenge: @challenge,
+          user: user,
+          date_of_set: date,
+          reps_in_set: target_reps - existing_reps
+        )
+      end
+    end
+
+    redirect_to challenge_path(@challenge), notice: "Logs caught up!"
   end
 
   private

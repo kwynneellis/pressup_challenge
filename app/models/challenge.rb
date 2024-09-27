@@ -70,15 +70,15 @@ class Challenge < ApplicationRecord
     end
   end
 
+  def today_days_since_start
+    days_since_start(Date.today)
+  end
+
   private
 
   def days_since_start(date)
     return 0 if start_date.nil?
     (date - self.start_date).to_i + 1
-  end
-
-  def today_days_since_start
-    days_since_start(Date.today)
   end
 
   def daily_abstinence_target

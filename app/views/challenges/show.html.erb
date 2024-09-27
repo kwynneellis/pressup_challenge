@@ -1,24 +1,6 @@
-<div class="d-flex justify-content-between mb-3">
-  <div>
-    <h4 class="mb-0"><%= @challenge.name %></h4>
-    <small>Start Date: <%= @challenge.start_date.strftime("%d %b %Y") %></small>
-  </div>
-  <div>
-    <div class="btn-group" role="group">
-      <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        ⚙️
-      </button>
-      <ul class="dropdown-menu">
-        <% if !current_user.participating_in?(@challenge) %>
-        <li><%= button_to "Join", join_challenge_path(@challenge), method: :post, class: "dropdown-item" %></li>
-        <% else %>
-        <li><%= link_to "Edit", edit_challenge_path(@challenge), class: "dropdown-item" %></li>
-        <li><%= button_to 'Leave', leave_challenge_path(@challenge), method: :delete, data: { confirm: "Are you sure you want to leave this challenge?", turbo_confirm: "Are you sure you want to leave this challenge?" }, class: "dropdown-item" %></li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-</div>
+<%= render 'challenges/navbar', challenge: @challenge %>
+
+<%= render 'challenges/insights', challenge: @challenge %>
 
 <% if current_user.participating_in?(@challenge) %>
 

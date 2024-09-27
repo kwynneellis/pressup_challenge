@@ -1,12 +1,15 @@
 <nav class="navbar navbar-expand-sm fixed-bottom bg-body-tertiary">
   <div class="container container-fluid">
     <% if user_signed_in? %>
+      <%= link_to "🏠", authenticated_root_path, class: "navbar-brand" %>
+      <% if @primary_challenge.present? %>
+        <%= link_to "🎯 #{@todays_target}", challenge_path(@primary_challenge), class: "navbar-brand" %>
+      <% end %>
       <%= link_to "💪", challenges_path, class: "navbar-brand" %>
-      <%= link_to "➕", new_challenge_path, class: "navbar-brand" %>
       <%= link_to "🔎", public_challenges_path, class: "navbar-brand" %>
       <%= link_to "👤", user_path, class: "navbar-brand" %>
-      <% else %> 
-      <%= link_to "💪", user_path, class: "navbar-brand" %>
+    <% else %> 
+      <%= link_to "🏠", user_path, class: "navbar-brand" %>
     <% end %>
   </div>
 </nav>
