@@ -59,7 +59,7 @@ class Challenge < ApplicationRecord
     end
   end
 
-  def cumulative_target_to_date 
+  def cumulative_target_to_date
     case self.challenge_type
     when "abstinence"
       today_days_since_start
@@ -70,8 +70,23 @@ class Challenge < ApplicationRecord
     end
   end
 
+  def total_target_of_challenge
+    case self.challenge_type
+    when "abstinence"
+      days_in_challenge
+    when "fixed"
+      days_in_challenge * daily_fixed_target
+    when "incremental"
+      total_incremental_target
+    end
+  end
+
   def today_days_since_start
     days_since_start(Date.today)
+  end
+
+  def days_in_challenge
+    days_since_start(self.end_date)
   end
 
   private
@@ -107,6 +122,14 @@ class Challenge < ApplicationRecord
     cumulative_target
   end
 
+  def total_incremental_target
+    total_accumulation = (days_in_challenge * (days_in_challenge + 1)) / 2
+    if self.starting_volume.present? && self.starting_volume > 1
+      total_accumulation += (days_in_challenge * (self.starting_volume - 1))
+    end
+
+    total_accumulation
+  end
 
   def set_end_date
     self.end_date || Date.new(self.start_date.year, 12, 31)

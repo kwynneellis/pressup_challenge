@@ -1,7 +1,20 @@
-<div class="bubble-container">
-
-  <div>You are <%= challenge.today_days_since_start %> days in</div>
-  <div>So far you've done <%= number_with_delimiter(@challenge.cumulative_reps_done(current_user)) %> / <%= number_with_delimiter(@challenge.cumulative_target_to_date) %> <%= @challenge.rep_unit || '' %></div>
-  <div>Today: <%= number_with_delimiter(@challenge.reps_done_today(current_user)) %> / <%= number_with_delimiter(@challenge.rep_target_today) %> <%= @challenge.rep_unit || '' %></div>
-
+<div class="bubble-container insights-container">
+  <div id="insightsCarousel" class="carousel carousel-dark slide p-1 mb-0" data-bs-ride="carousel">
+    <div class="carousel-inner mb-4">
+      <div class="carousel-item active">
+        <%= render "challenges/data", challenge: @challenge %>
+      </div>
+      <div class="carousel-item">
+        <%= render "challenges/total_progress_pct", challenge: @challenge %>
+      </div>
+      <div class="carousel-item">
+        <%= render "challenges/total_progress_abs", challenge: @challenge %>
+      </div>
+    </div>
+    <div class="carousel-indicators m-0">
+      <button type="button" data-bs-target="#insightsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#insightsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#insightsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+  </div>
 </div>

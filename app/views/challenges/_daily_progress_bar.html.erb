@@ -1,11 +1,28 @@
 <div class="bubble-container" id="challenge-info">
-
+  <div class="row text-center pb-1 mb-2"><small><%= @date.strftime("%a %d %b") %></small></div>
   <div class="row text-center">
     <% if reps_remaining > 0 %>
-    <div class="col"><%= reps_done %>/<%= rep_target %></div>
-    <div class="col"><h4><%= reps_remaining %> left</h4></div>
+    <div class="col">
+      <div class="row"><h6 class="m-0"><%= reps_remaining %></h6></div>
+      <div class="row"><small>to go</small></div>
+    </div>
+    <div class="col">
+      <%= form_with url: challenge_logs_path(@challenge), method: :post, local: true do |form| %>
+        <%= form.hidden_field :date_of_set, value: @date %>
+
+        <div class="input-group">
+          <%= form.number_field :reps_in_set, min: 1, class: "form-control", required: true, placeholder: "0" %>
+          <%= form.submit "Log", class: "btn btn-outline-secondary bg-gradient", data: { turbo: "false" } %>
+        </div>
+
+      <% end %>
+    </div>
     <% else %>
-    <div class="col"><h4>All <%= reps_done %> done 👏</h4></div>
+    <div class="col-1">
+      <%= button_to "🔄", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { confirm: "Are you sure you want to reset today's logs?", turbo_confirm: "Are you sure you want to reset today's logs?" }, class: "btn p-0" %>
+    </div>
+    <div class="col-10"><h6 class="m-0 p-0">All <%= reps_done %> done 👏</h6></div>
+    <div class="col-1"></div>
     <% end %>
   </div>
 
@@ -15,5 +32,4 @@
       <div class="progress-bar bg-secondary-subtle text-dark" style="width: 100%">0%</div>
     <% end %>
   </div>
-
 </div>

@@ -4,6 +4,14 @@ export default class extends Controller {
   static targets = ["activeItem", "container"];
 
   connect() {
+    // Listen for the Bootstrap accordion shown event
+    const accordionElement = document.getElementById('collapseCalendar');
+    if (accordionElement) {
+      accordionElement.addEventListener('shown.bs.collapse', () => {
+        this.centerOnActiveItem();
+      });
+    }
+    // Optionally center on the active item when the page first loads
     this.centerOnActiveItem();
   }
 

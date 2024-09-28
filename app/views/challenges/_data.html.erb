@@ -1,0 +1,22 @@
+<div class="w-100 d-block px-2">
+  <div class="row py-1 fw-medium">
+    <div class="col text-start"></div>
+    <div class="col text-end">To date</div>
+    <div class="col text-end">Target</div>
+  </div>
+  <div class="row py-1 bg-light">
+    <div class="col text-start">Days</div>
+    <div class="col text-end"><%= challenge.today_days_since_start %></div>
+    <div class="col text-end"><%= challenge.days_in_challenge %></div>
+  </div>
+  <div class="row py-1">
+    <div class="col text-start">Today's #</div>
+    <div class="col text-end"><%= number_with_delimiter(@challenge.reps_done_today(current_user)) %></div>
+    <div class="col text-end"><%= number_with_delimiter(@challenge.rep_target_today) %></div>
+  </div>
+  <div class="row py-1 bg-light">
+    <div class="col text-start">Total #</div>
+    <div class="col text-end"><%= number_with_delimiter(@challenge.cumulative_reps_done(current_user)) %></div>
+    <div class="col text-end"><%= number_with_delimiter(@challenge.total_target_of_challenge) %></div>
+  </div>
+</div>
