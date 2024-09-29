@@ -18,8 +18,6 @@
       <% end %>
     </div>
 
-    <%= render 'challenges/log_reps' %>
-
     <% else %>
     <div class="col-1">
       <%= button_to "🔄", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { confirm: "Are you sure you want to reset today's logs?", turbo_confirm: "Are you sure you want to reset today's logs?" }, class: "btn p-0" %>
