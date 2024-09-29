@@ -10,6 +10,11 @@
           🗓️
       </button>
     </div>
+    <div class="accordion" id="accordionLogReps">
+      <button class="btn" type="btn button" data-bs-toggle="collapse" data-bs-target="#collapseLogRepButtons" aria-expanded="true" aria-controls="collapseLogRepButtons">
+          ➕
+      </button>
+    </div>
 
 
     <%= button_to "⏩", catch_up_challenge_logs_path(@challenge), method: :post, class: "navbar-brand btn m-0", data: { confirm: "Are you sure you want to catch up on all logs?", turbo_confirm: "Are you sure you want to catch up on all logs?" } %>
@@ -33,5 +38,10 @@
 <div id="collapseCalendar" class="accordion-collapse collapse" data-bs-parent="#accordionCalendar">
   <div class="accordion-body">
     <%= render "challenges/day_navbar" %>
+  </div>
+</div>
+<div id="collapseLogRepButtons" class="accordion-collapse collapse" data-bs-parent="#accordionLogReps">
+  <div class="accordion-body">
+    <%= render "challenges/log_reps" %>
   </div>
 </div>

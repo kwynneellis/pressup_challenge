@@ -1,30 +1,18 @@
-<div class="bubble-container p-1">
-  <div class="scroll-navbar p-1 mb-0">
-    <div class="scroll-item p-0 m-1 col-4 col-sm-3">
-      <%= form_with url: challenge_logs_path(@challenge), method: :post, local: true do |form| %>
-        <%= form.hidden_field :date_of_set, value: @date %>
 
-        <div class="input-group">
-          <%= form.number_field :reps_in_set, min: 1, class: "form-control py-3", required: true, placeholder: "0" %>
-          <%= form.submit "Log", class: "btn btn-success bg-gradient py-3", data: { turbo: "false" } %>
-        </div>
-
-      <% end %>
+  <div class="scroll-navbar p-1 mb-0 mt-2">
+    <div class="scroll-item p-0 m-1">
+      <turbo-frame id="log-all-reps">
+        <%= render 'challenges/log_all_button', date_of_set: @date, reps_remaining: @reps_remaining %>
+      </turbo-frame>
     </div>
-      <div class="scroll-item p-0 m-1">
-        <turbo-frame id="log-all-reps">
-          <%= render 'challenges/log_all_button', date_of_set: @date, reps_remaining: @reps_remaining %>
-        </turbo-frame>
-      </div>
     <% @log_increments.each do |increment| %>
       <div class="scroll-item p-0 m-1">
         <%= button_to "+ #{increment}", challenge_logs_path(@challenge, date_of_set: @date, reps_in_set: increment), 
-            method: :post, remote: true, class: "btn btn-success bg-gradient py-3", 
+            method: :post, remote: true, class: "btn btn-outline-success bg-success-subtle", 
             data: { turbo: "false" } %>
       </div>
     <% end %>
     <div class="scroll-item p-0 m-1">
-      <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { confirm: "Are you sure you want to reset today's logs?", turbo_confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-light bg-gradient py-3" %>
+      <%= button_to "Reset", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { confirm: "Are you sure you want to reset today's logs?", turbo_confirm: "Are you sure you want to reset today's logs?" }, class: "btn btn-outline-warning" %>
     </div>
   </div>
-</div>

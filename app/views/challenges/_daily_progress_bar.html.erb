@@ -12,11 +12,14 @@
 
         <div class="input-group">
           <%= form.number_field :reps_in_set, min: 1, class: "form-control", required: true, placeholder: "0" %>
-          <%= form.submit "Log", class: "btn btn-outline-secondary bg-gradient", data: { turbo: "false" } %>
+          <%= form.submit "Log", class: "btn btn-outline-success bg-success-subtle", data: { turbo: "false" } %>
         </div>
 
       <% end %>
     </div>
+
+    <%= render 'challenges/log_reps' %>
+
     <% else %>
     <div class="col-1">
       <%= button_to "🔄", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { confirm: "Are you sure you want to reset today's logs?", turbo_confirm: "Are you sure you want to reset today's logs?" }, class: "btn p-0" %>
@@ -25,7 +28,6 @@
     <div class="col-1"></div>
     <% end %>
   </div>
-
   <div class="progress mt-3" role="progressbar" aria-label="Success striped example" aria-valuenow="<%= reps_done_as_percentage %>" aria-valuemin="0" aria-valuemax="100" style="height: 3em">
     <div class="progress-bar <%= 'progress-bar-striped' if reps_done_as_percentage < 100 %> bg-success" style="width: <%= reps_done_as_percentage %>%"><%= reps_done_as_percentage.round %>%</div>
     <% if reps_done_as_percentage == 0 %>
