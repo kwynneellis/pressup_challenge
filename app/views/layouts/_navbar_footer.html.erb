@@ -5,7 +5,6 @@
       <% if @primary_challenge.present? %>
         <%= link_to "🎯 #{@todays_target}", challenge_path(@primary_challenge), class: "navbar-brand" %>
       <% end %>
-      <%= link_to "💪", challenges_path, class: "navbar-brand" %>
       <%= link_to "🔎", public_challenges_path, class: "navbar-brand" %>
       <%= link_to "👤", user_path, class: "navbar-brand" %>
     <% else %> 

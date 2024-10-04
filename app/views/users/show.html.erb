@@ -1,25 +1,4 @@
-<div class="d-flex justify-content-between mb-3">
-  <div>
-    <h4 class="mb-0"> Welcome back 👋</h4>
-    <small><%= current_user.username %></small>
-  </div>
-  <div class="btn-group" role="group">
-    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      ⚙️
-    </button>
-    <ul class="dropdown-menu">
-      <% if user_signed_in? %>
-      <li><%= link_to "Settings", edit_user_registration_path, class: "dropdown-item" %></li>
-      <li><%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %></li>
-      <% else %>
-      <li><%= link_to "Log in", new_user_session_path, class: "dropdown-item"%></li>
-      <% end %>
-    </ul>
-  </div>
-</div>
-<div class="form-check form-switch">
-  <%= form_with url: toggle_visibility_user_path, method: :patch, local: true do %>
-    <%= check_box_tag 'user[visibility]', '1', current_user.visibility, class: 'form-check-input', onchange: 'this.form.submit();' %>
-    <%= label_tag 'user[visibility]', 'Profile visibility', class: 'form-check-label' %>
-  <% end %>
-</div>
+<%= render 'users/navbar' %>
+
+<%= render 'users/challenges' %>
+

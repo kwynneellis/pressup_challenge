@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :toggle_visibility]
 
   def show
+    @challenges = @user.joined_challenges
+    @created_challenges = @user.created_challenges
   end
 
   def edit
@@ -10,7 +12,7 @@ class UsersController < ApplicationController
 
   def toggle_visibility
     @user.update(visibility: !@user.visibility)
-    redirect_to user_path, notice: 'Visibility updated successfully.'
+    redirect_to edit_user_registration_path, notice: 'Visibility updated successfully.'
   end
 
   def update
