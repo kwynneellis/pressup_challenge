@@ -1,0 +1,51 @@
+<div class="bubble-container">
+  <div class="row py-1">
+    <div class="col">Start</div>
+    <div class="col"><%= challenge.start_date.strftime("%d %b %Y") %></div>
+  </div>
+  <div class="row py-1 border-top">
+    <div class="col">End</div>
+    <div class="col"><%= challenge.end_date.strftime("%d %b %Y") %></div>
+  </div>
+  <div class="row py-1 border-top">
+    <div class="col">Total</div>
+    <div class="col"><%= challenge.days_in_challenge %> days</div>
+  </div>
+
+  <div class="row py-2 border-top bg-light"></div>
+
+  <div class="row py-1 border-top">
+    <div class="col">Type</div>
+    <div class="col"><%= challenge.challenge_type.titleize %></div>
+  </div>
+  <% if challenge.challenge_type == "fixed" %>
+  <div class="row py-1 border-top">
+    <div class="col">Daily target</div>
+    <div class="col"><%= challenge.fixed_rep_target %> <%= challenge.rep_unit || '' %></div>
+  </div>
+  <% else %>
+  <div class="row py-1 border-top">
+    <div class="col">Starting at</div>
+    <div class="col"><%= challenge.starting_volume || 1 %></div>
+  </div>
+  <% end %>
+  <div class="row py-1 border-top">
+    <div class="col">Total vol</div>
+    <div class="col"><%= number_with_delimiter(challenge.total_target_of_challenge) %></div>
+  </div>
+
+  <div class="row py-2 border-top bg-light"></div>
+
+  <div class="row py-1 border-top">
+    <div class="col">Today</div>
+    <div class="col"><%= Date.today.strftime("%d %b %Y") %></div>
+  </div>
+  <div class="row py-1 border-top">
+    <div class="col">Today</div>
+    <div class="col">Day <%= number_with_delimiter(challenge.today_days_since_start) %></div>
+  </div>
+  <div class="row py-1 border-top">
+    <div class="col">Today's vol</div>
+    <div class="col"><%= number_with_delimiter(challenge.rep_target_today) %></div>
+  </div>
+</div>

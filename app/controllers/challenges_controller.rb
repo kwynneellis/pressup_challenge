@@ -52,7 +52,7 @@ class ChallengesController < ApplicationController
 
     if participation
       participation.destroy
-      redirect_to challenges_path, notice: "You have left the challenge."
+      redirect_to user_path, notice: "You have left the challenge."
     else
       redirect_to @challenge, alert: "You are not participating in this challenge."
     end
@@ -63,7 +63,7 @@ class ChallengesController < ApplicationController
     load_log_data_for(@date)
     # Allow users to see the show page if they created the challenge or have joined it
     unless @challenge.public? || @challenge.creator == current_user || @challenge.participations.exists?(user: current_user)
-      redirect_to challenges_path, alert: "You do not have permission to view this challenge."
+      redirect_to user_path, alert: "You do not have permission to view this challenge."
     end
   end
 

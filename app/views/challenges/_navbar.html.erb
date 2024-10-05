@@ -1,14 +1,8 @@
-<div class="d-flex justify-content-between mb-3">
+<div class="d-flex justify-content-between">
   <div>
     <h4 class="mb-0"><%= @challenge.name %></h4>
     <small><%= @challenge.start_date.strftime("%d %b %Y") %> - <%= @challenge.end_date.strftime("%d %b %Y") %></small>
   </div>
-
-<% if current_user.primary_challenge == @challenge %>
-  <%= button_to "★", remove_primary_challenge_path(@challenge), method: :post, class: "btn" %>
-<% else %>
-  <%= button_to "☆", set_primary_challenge_path(@challenge), method: :post, class: "btn" %>
-<% end %>
 
   <div class="btn-group" role="group">
     <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -24,24 +18,40 @@
     </ul>
   </div>
 </div>
-<nav class="navbar navbar-expand-sm">
+<% if current_user.participating_in?(@challenge) %>
+<nav class="navbar navbar-expand-sm p-0">
   <div class="container container-fluid p-0">
-    <%= link_to "🎯 #{@challenge.rep_target_today}", challenge_path(@primary_challenge), class: "navbar-brand btn m-0" %>
+    <div class="p-0 m-0"><%= "🎯 #{@challenge.rep_target_today}" %></div>
 
+    <% if current_user.primary_challenge == @challenge %>
+      <%= button_to "⭐️", remove_primary_challenge_path(@challenge), method: :post, class: "navbar-brand btn btn-sm p-0 m-0" %>
+    <% else %>
+      <%= button_to "☆", set_primary_challenge_path(@challenge), method: :post, class: "navbar-brand btn btn-sm p-0 m-0" %>
+    <% end %>
 
     <div class="accordion" id="accordionCalendar">
-      <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCalendar" aria-expanded="true" aria-controls="collapseCalendar">
+      <button class="btn btn-sm p-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCalendar" aria-expanded="true" aria-controls="collapseCalendar">
           🗓️
       </button>
     </div>
+    <% if @challenge.challenge_type != "abstinence" %>
     <div class="accordion" id="accordionLogReps">
-      <button class="btn" type="btn button" data-bs-toggle="collapse" data-bs-target="#collapseLogRepButtons" aria-expanded="true" aria-controls="collapseLogRepButtons">
+      <button class="btn btn-sm p-0" type="btn button" data-bs-toggle="collapse" data-bs-target="#collapseLogRepButtons" aria-expanded="true" aria-controls="collapseLogRepButtons">
           ➕
       </button>
     </div>
+    <% else %>
+      <% if @reps_remaining > 0 %>
+        <%= button_to "➕", challenge_logs_path(@challenge, date_of_set: @date, reps_in_set: 1), 
+          method: :post, remote: true, class: "navbar-brand btn btn-sm p-0 m-0", 
+          data: { turbo: "false" } %>
+        <% else %>
+        <%= button_to "🔄", reset_challenge_logs_path(@challenge, date_of_set: @date), method: :delete, data: { confirm: "Are you sure you want to reset today's logs?", turbo_confirm: "Are you sure you want to reset today's logs?" }, class: "navbar-brand btn btn-sm p-0 m-0" %>
+      <% end %>
+    <% end %>
 
 
-    <%= button_to "⏩", catch_up_challenge_logs_path(@challenge), method: :post, class: "navbar-brand btn m-0", data: { confirm: "Are you sure you want to catch up on all logs?", turbo_confirm: "Are you sure you want to catch up on all logs?" } %>
+    <%= button_to "⏩", catch_up_challenge_logs_path(@challenge), method: :post, class: "navbar-brand btn btn-sm m-0 p-0", data: { confirm: "Are you sure you want to catch up on all logs?", turbo_confirm: "Are you sure you want to catch up on all logs?" } %>
 
   </div>
 </nav>
@@ -55,3 +65,4 @@
     <%= render "challenges/log_reps" %>
   </div>
 </div>
+<% end %>

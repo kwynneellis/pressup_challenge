@@ -12,13 +12,16 @@
     <% @active_challenges.each do |challenge| %>
       <div class="card text-bg-light mb-3 p-1">
         <div class="accordion px-2" id="userActiveChallenge<%= challenge.id %>">
-          <div class="w-100 d-flex justify-content-between" data-bs-toggle="collapse" data-bs-target="#collapseUserActiveChallenge<%= challenge.id %>" aria-expanded="true" aria-controls="collapseUserActiveChallenge<%= challenge.id %>">
             <%= link_to challenge_path(challenge), class: "card-link" do %>
+            <div class="w-100 d-flex justify-content-between">
               <div class="text-decoration-underline"><%= challenge.name.titleize %></div>
+              <div class="btn btn-sm p-0"><%= challenge == current_user.primary_challenge ? "⭐️" : "" %></div>
+            </div>
             <% end %>
-            <button class="btn dropdown-toggle p-0 text-end" type="button"></button>
+          <div class="w-100 d-flex justify-content-between" data-bs-toggle="collapse" data-bs-target="#collapseUserActiveChallenge<%= challenge.id %>" aria-expanded="true" aria-controls="collapseUserActiveChallenge<%= challenge.id %>">
+            <small class="text-body-secondary text-end"><%= challenge.start_date.strftime("%d %b %Y") %> - <%= challenge.end_date.strftime("%d %b %Y") %> </small>
+            <button class="btn btn-sm dropdown-toggle py-0 px-1 text-end" type="button"></button>
           </div>
-          <div class=""><small class="text-body-secondary text-end"><%= challenge.start_date.strftime("%d %b %Y") %> - <%= challenge.end_date.strftime("%d %b %Y") %></small></div>
         </div>
           <div id="collapseUserActiveChallenge<%= challenge.id %>" class="accordion-collapse collapse" data-bs-parent="#userActiveChallenge<%= challenge.id %>">
             <div class="accordion-body bg-white">
