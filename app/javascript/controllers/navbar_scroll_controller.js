@@ -16,7 +16,9 @@ export default class extends Controller {
   }
 
   centerOnActiveItem() {
-    this.scrollToActiveItem(this.activeItemTarget);
+    if (this.hasActiveItemTarget) {
+      this.scrollToActiveItem(this.activeItemTarget);
+    }
   }
 
   scrollToActiveItem(activeItem) {

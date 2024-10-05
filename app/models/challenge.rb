@@ -89,6 +89,13 @@ class Challenge < ApplicationRecord
     days_since_start(self.end_date)
   end
 
+  def set_active_and_archive
+    if start_date.present?
+      self.active = start_date <= Date.today && end_date >= Date.today
+    end
+    self.archive = false if archive.nil?
+  end
+
   private
 
   def days_since_start(date)
@@ -133,12 +140,5 @@ class Challenge < ApplicationRecord
 
   def set_end_date
     self.end_date || Date.new(self.start_date.year, 12, 31)
-  end
-
-  def set_active_and_archive
-    if start_date.present?
-      self.active = start_date <= Date.today && end_date >= Date.today
-    end
-    self.archive = false if archive.nil?
   end
 end

@@ -4,7 +4,7 @@
 <%= link_to "Browse", public_challenges_path, class: "btn btn-outline-secondary w-50 mx-1" %>
 </div>
 
-<% @challenges.active.each do |challenge| %>
+<% @active_challenges.each do |challenge| %>
   <%= link_to challenge_path(challenge), class: "card-link" do %>
     <div class="card text-bg-light mb-3">
       <div class="card-header"><%= challenge.name.titleize %></div>
@@ -17,9 +17,9 @@
   <% end %>
 <% end %>
 
-<% if @created_challenges.any? %>  
+<% if @created_non_active_challenges.any? %>  
   <h4>Created by you</h4>
-  <% @created_challenges.each do |created_challenge| %>
+  <% @created_non_active_challenges.each do |created_challenge| %>
     <%= link_to challenge_path(created_challenge), class: "card-link" do %>
       <div class="card text-bg-light mb-3">
         <div class="card-header"><%= created_challenge.name.titleize %></div>
@@ -30,14 +30,14 @@
     <% end %>
   <% end %>
 <% end %>
-<% if @challenges.archived.any? %>  
+<% if @archived_challenges.any? %>  
   <h4>Archived challenges</h4>
-  <% @challenges.archived.each do |challenge| %>
-    <%= link_to challenge_path(challenge), class: "card-link" do %>
+  <% @archived_challenges.each do |arch_challenge| %>
+    <%= link_to challenge_path(arch_challenge), class: "card-link" do %>
       <div class="card text-bg-light mb-3">
-        <div class="card-header"><%= challenge.name.titleize %></div>
+        <div class="card-header"><%= arch_challenge.name.titleize %></div>
         <div class="card-body">
-          <p class="card-text"><small class="text-body-secondary">Started on <%= challenge.start_date.strftime("%d %b %Y") %></small></p>
+          <p class="card-text"><small class="text-body-secondary">Started on <%= arch_challenge.start_date.strftime("%d %b %Y") %></small></p>
         </div>
       </div>
     <% end %>

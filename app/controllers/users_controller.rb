@@ -3,8 +3,21 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :toggle_visibility]
 
   def show
-    @challenges = @user.joined_challenges
-    @created_challenges = @user.created_challenges
+    @all_challenges = (@user.joined_challenges + @user.created_challenges).uniq
+    # Ensure each challenge is up-to-date
+    @all_challenges.each do |challenge|
+      challenge.set_active_and_archive
+      challenge.save if challenge.changed? # Only save if changes occurred
+    end
+
+    # Challenges that are active and joined
+    @active_challenges = @user.joined_challenges.active
+
+    # Created challenges that are not in the active challenges
+    @created_non_active_challenges = @user.created_challenges.where.not(id: @active_challenges.pluck(:id))
+
+    # Archived challenges, whether joined or created
+    @archived_challenges = (@user.joined_challenges.archived + @user.created_challenges.archived).uniq
   end
 
   def edit
