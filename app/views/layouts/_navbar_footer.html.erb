@@ -2,7 +2,7 @@
   <div class="container container-fluid">
     <% if user_signed_in? %>
       <%= link_to "🏠", authenticated_root_path, class: "navbar-brand" %>
-      <% if @primary_challenge.present? %>
+      <% if current_user.primary_challenge.present? %>
         <%= link_to "⭐️", challenge_path(current_user.primary_challenge), class: "navbar-brand" %>
       <% end %>
       <%= link_to "🔎", public_challenges_path, class: "navbar-brand" %>
