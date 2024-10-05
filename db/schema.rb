@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_22_141329) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_05_102600) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,7 +62,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_22_141329) do
     t.datetime "updated_at", null: false
     t.string "username"
     t.boolean "visibility", default: false
+    t.bigint "primary_challenge_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["primary_challenge_id"], name: "index_users_on_primary_challenge_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -71,4 +73,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_22_141329) do
   add_foreign_key "logs", "users"
   add_foreign_key "participations", "challenges"
   add_foreign_key "participations", "users"
+  add_foreign_key "users", "challenges", column: "primary_challenge_id"
 end

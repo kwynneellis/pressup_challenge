@@ -30,7 +30,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    # TODO: Remove :total_press_ups, :start_date
     params.require(:user).permit(:username)
   end
 end

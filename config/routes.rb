@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       get 'day/:date', action: :show_by_date, as: :day
       post 'join', to: 'challenges#join', as: 'join'
       delete 'leave', to: 'challenges#leave', as: 'leave'
+      post 'set_primary', to: 'challenges#set_primary'
+      post 'remove_primary', to: 'challenges#remove_primary'
     end
   
     collection do

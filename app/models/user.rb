@@ -14,7 +14,22 @@ class User < ApplicationRecord
   has_many :joined_challenges, through: :participations, source: :challenge
   has_many :logs, through: :joined_challenges
 
+  belongs_to :primary_challenge, class_name: "Challenge", optional: true
+
   def participating_in?(challenge)
     joined_challenges.exists?(challenge.id)
+  end
+
+  def set_primary_challenge(challenge)
+    update(primary_challenge: challenge)
+  end
+
+  def remove_primary_challenge
+    self.primary_challenge = nil
+    update(primary_challenge: default_primary_challenge)
+  end
+
+  def default_primary_challenge
+    joined_challenges.active.order(:created_at).first
   end
 end

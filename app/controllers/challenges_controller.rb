@@ -1,6 +1,6 @@
 class ChallengesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_challenge, only: [:show, :join, :leave, :show_by_date, :edit, :update, :destroy]
+  before_action :set_challenge, only: [:show, :join, :leave, :show_by_date, :edit, :update, :destroy, :set_primary, :remove_primary]
 
   def index
     @challenges = current_user.joined_challenges
@@ -96,6 +96,16 @@ class ChallengesController < ApplicationController
   def destroy
     @challenge.destroy
     redirect_to challenges_path, notice: "Challenge deleted successfully."
+  end
+
+  def set_primary
+    current_user.set_primary_challenge(@challenge)
+    redirect_to @challenge, notice: "Primary challenge updated!"
+  end
+
+  def remove_primary
+    current_user.remove_primary_challenge
+    redirect_to @challenge, notice: "Primary challenge removed, default set!"
   end
 
   private
