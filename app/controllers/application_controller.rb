@@ -3,8 +3,18 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_info, if: :user_signed_in?
+  before_action :redirect_authenticated_user, only: [:home]
+
+  def home
+  end
 
   private
+
+  def redirect_authenticated_user
+    if user_signed_in?
+      redirect_to authenticated_root_path
+    end
+  end
 
   def set_info
     date = params[:date]&.to_date || Date.today

@@ -31,8 +31,8 @@ Rails.application.routes.draw do
   authenticated :user do
     root 'logs#index_all', as: :authenticated_root
   end
-  
+
   unauthenticated do
-    root 'session#new', as: :unauthenticated_root
+    root 'application#home', as: :unauthenticated_root
   end
 end
