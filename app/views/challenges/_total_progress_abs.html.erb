@@ -1,5 +1,6 @@
 <% @day_percentage = (challenge.today_days_since_start.to_f/challenge.days_in_challenge * 100).round(1) %>
 <% @total_percentage = (challenge.cumulative_reps_done(current_user).to_f/challenge.total_target_of_challenge * 100).round(1) %>
+<% @remaining_percentage = ((challenge.total_target_of_challenge - challenge.cumulative_reps_done(current_user)).to_f/challenge.total_target_of_challenge * 100).round(1) %>
 
 <div class="d-block w-100 px-2">
   <div class="mt-1 text-start">Days</div>
@@ -9,10 +10,17 @@
     <div class="progress-bar bg-info-subtle text-dark" style="width: 100%">0</div>
     <% end %>
   </div>
-<div class="mt-1 text-start">Volume</div>
-  <div class="progress my-1" role="progressbar" aria-label="Warning striped example" aria-valuenow="<%= @total_percentage %>" aria-valuemin="0" aria-valuemax="100" style="height: 3em">
-    <div class="progress-bar <%= 'progress-bar-striped' if @total_percentage < 100 %> bg-warning" style="width: <%= @total_percentage %>%"><%= number_with_delimiter(challenge.cumulative_reps_done(current_user)) %></div>
+  <div class="mt-1 text-start">Completed</div>
+  <div class="progress my-1" role="progressbar" aria-label="Success striped example" aria-valuenow="<%= @total_percentage %>" aria-valuemin="0" aria-valuemax="100" style="height: 3em">
+    <div class="progress-bar <%= 'progress-bar-striped' if @total_percentage < 100 %> bg-success" style="width: <%= @total_percentage %>%"><%= number_with_delimiter(challenge.cumulative_reps_done(current_user)) %></div>
     <% if @total_percentage == 0 %>
+    <div class="progress-bar bg-success-subtle text-dark" style="width: 100%">0</div>
+    <% end %>
+  </div>
+  <div class="mt-1 text-start">Remaining</div>
+  <div class="progress my-1" role="progressbar" aria-label="Warning striped example" aria-valuenow="<%= @remaining_percentage %>" aria-valuemin="0" aria-valuemax="100" style="height: 3em">
+    <div class="progress-bar <%= 'progress-bar-striped' if @remaining_percentage < 100 %> bg-warning" style="width: <%= @remaining_percentage %>%"><%= number_with_delimiter(challenge.total_target_of_challenge - challenge.cumulative_reps_done(current_user)) %></div>
+    <% if @remaining_percentage == 0 %>
     <div class="progress-bar bg-warning-subtle text-dark" style="width: 100%">0</div>
     <% end %>
   </div>
