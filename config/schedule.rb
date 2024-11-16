@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, at: '2:15 pm' do
+every 1.day, at: '6:00 pm' do
   runner "User.send_daily_target_reminders"
 end
