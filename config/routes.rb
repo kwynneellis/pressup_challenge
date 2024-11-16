@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resource :user, only: [:show, :edit, :update] do
     patch :toggle_visibility, on: :collection
+    patch :toggle_reminder_email_opt_in, on: :collection
   end
 
   resources :challenges do

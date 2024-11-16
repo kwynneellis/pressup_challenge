@@ -1,10 +1,20 @@
 <%= link_to "⬅️ back", user_path, class: "text-decoration-none text-reset" %>
-
+<div class="border-bottom my-2">
+    <h4 class="mb-0"> Profile settings</h4>
+    <small><%= current_user.username %></small>
+  </div>
 <div class="my-2 border-bottom py-2">
   <div class="form-check form-switch mb-2">
     <%= form_with url: toggle_visibility_user_path, method: :patch, local: true do %>
       <%= check_box_tag 'user[visibility]', '1', current_user.visibility, class: 'form-check-input', onchange: 'this.form.submit();' %>
       <%= label_tag 'user[visibility]', 'Profile visibility', class: 'form-check-label' %>
+    <% end %>
+  </div>
+
+  <div class="form-check form-switch border-bottom mb-2 pb-2">
+    <%= form_with url: toggle_reminder_email_opt_in_user_path, method: :patch, local: true do %>
+      <%= check_box_tag 'user[reminder_email_opt_in]', '1', current_user.reminder_email_opt_in, class: 'form-check-input', onchange: 'this.form.submit();' %>
+      <%= label_tag 'user[reminder_email_opt_in]', 'Daily reminder emails', class: 'form-check-label' %>
     <% end %>
   </div>
 
@@ -26,10 +36,10 @@
     <% end %>
 
     <div class="field mb-2">
-      <%= f.label :password, class: 'form-label' %> <i>(leave blank if you don't want to change it)</i><br />
+      <%= f.label :password, class: 'form-label' %> <small>(if you want to change it)</small><br />
       <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
       <% if @minimum_password_length %>
-        <em><%= @minimum_password_length %> characters minimum</em>
+        <small><%= @minimum_password_length %> characters minimum</small>
       <% end %>
     </div>
 
@@ -39,7 +49,7 @@
     </div>
 
     <div class="field mb-2">
-      <%= f.label :current_password, class: 'form-label' %> <i>(we need your current password to confirm your changes)</i><br />
+      <%= f.label :current_password, class: 'form-label' %> <br />
       <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
     </div>
 

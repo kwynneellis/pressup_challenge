@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :toggle_visibility]
+  before_action :set_user, only: [:show, :edit, :update, :toggle_visibility, :toggle_reminder_email_opt_in]
 
   def show
     @all_challenges = (@user.joined_challenges + @user.created_challenges).uniq
@@ -26,6 +26,11 @@ class UsersController < ApplicationController
   def toggle_visibility
     @user.update(visibility: !@user.visibility)
     redirect_to edit_user_registration_path, notice: 'Visibility updated successfully.'
+  end
+
+  def toggle_reminder_email_opt_in
+    @user.update(reminder_email_opt_in: !@user.reminder_email_opt_in)
+    redirect_to edit_user_registration_path, notice: 'Reminder email opt in updated successfully.'
   end
 
   def update

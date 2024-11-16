@@ -17,6 +17,9 @@ class Challenge < ApplicationRecord
   scope :archived, -> { where(archive: true) }
   scope :public_active, -> { where(public: true, active: true, archive: false) }
   scope :public_visible, -> { where(public: true, archive: false) }
+  scope :with_unmet_targets_for, ->(user) {
+    select { |challenge| challenge.reps_done_today(user) < challenge.rep_target_today }
+  }
 
   before_save :set_end_date
   before_save :set_active_and_archive

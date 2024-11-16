@@ -1,0 +1,10 @@
+Hey <%= @user.username %>,
+===============================================
+
+There's still time to hit your daily target.
+
+<% @outstanding_challenges.each do |challenge| %>
+- <%= challenge.name %> has <%= challenge.rep_target_today - challenge.reps_done_today(@user) %> reps remaining.
+<% end %>
+
+You've got this, keep up the great work!
