@@ -51,11 +51,17 @@ gem "sassc-rails"
 # Use bootstrap
 gem "bootstrap", "~> 5.3.3"
 
+# Dependency of bootstrap, make sure is above 2.9 to avoid deployment issues
+gem "execjs", "~> 2.10.0"
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
 # Use whenever to schedule emails
 gem 'whenever', require: false
+
+gem "kamal", require: false
+gem "thruster", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

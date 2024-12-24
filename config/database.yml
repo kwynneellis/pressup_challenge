@@ -16,7 +16,6 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
   database: pressup_challenge_production
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
